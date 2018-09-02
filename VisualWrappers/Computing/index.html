@@ -1,23 +1,99 @@
-<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Zenodys Control Panel</title>
+
+    <link href="assets/fonts/web/fonts.css" rel="stylesheet">
+    <link href="assets/css/bulma.min.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/icons/app-ui-icons/style.css" rel="stylesheet">
+    <link href="assets/css/jquery-ui.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <header class="header columns is-clearfix">
+        <div class="logo"></div>
+        <div class="headline">Zenodys Control Panel </div>
+    </header>
+
+
+    <div class="bd-example is-paddingless columns">
+
+
+    </div>
+
+
+    <div class="columns is-mobile is-4">
+
+        <div class="column">
+            <button id="visualisations" class="button is-info">Visualisations</button>
+            <br>
+            <br>
+
+            <button id="startEngine" class="button is-success is-fullwidth is-rounded">Start</button>
+            <button id="stopEngine" class="button is-danger is-fullwidth is-rounded">Stop</button>
+
+            <br>
+            <br>
+
+
+
+
+            <div class="field has-addons">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Your ETH address" id="txtAddress" />
+                </div>
+                <div class="control">
+
+                    <button id="saveAddress" class="button is-success">Save</button>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="column is-four-fifths">
+            <div id="message" class="card console"></div>
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+<script>
+    if (typeof module === 'object') {
+        window.module = module;
+        module = undefined;
+    }
+    // Load jQuery
+    window.$ = window.jQuery = require("jquery");
+</script>
+
+
 <script src="main.js"></script>
-<script>if (window.module) module = window.module;</script>
+<script>
+    if (window.module) module = window.module;
+</script>
 
-<button id="visualisations">Visualisations</button>
-<button id="startEngine">Start</button>
-<button id="stopEngine">Stop</button>
 
-<button id="saveAddress">Save</button>
-<input id="txtAddress" />
-
-<div id="message"></div>
-    	
 <script type="text/javascript">
- 
-    const ipcRenderer = require('electron').ipcRenderer; 
-    
-    function ReadAddress()
-    {
+    const ipcRenderer = require('electron').ipcRenderer;
+
+    function ReadAddress() {
         const fs = require('fs');
 
         if (!fs.existsSync("ZenEngine/address"))
@@ -26,44 +102,45 @@
         return fs.readFileSync("ZenEngine/address");
     }
 
-    $('#saveAddress').click(function() {
-        const fs = require('fs');    
-        
-        fs.writeFile("ZenEngine/address", $('#txtAddress').val() ,
-            function(err) {
-                if(err)
+    $('#saveAddress').click(function () {
+        const fs = require('fs');
+
+        fs.writeFile("ZenEngine/address", $('#txtAddress').val(),
+            function (err) {
+                if (err)
                     alert('Error in saving address!');
                 else
                     alert("Address saved!");
             });
     });
 
-    $('#startEngine').click(function() {
+    $('#startEngine').click(function () {
         ipcRenderer.send("startEngine");
     });
 
-    $('#stopEngine').click(function() {
+    $('#stopEngine').click(function () {
         ipcRenderer.send("stopEngine");
     });
 
-    $('#visualisations').click(function() {
+    $('#visualisations').click(function () {
         ipcRenderer.send("showVisualisations");
     });
-    
+
     //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
-    ipcRenderer.on('onZenEngineOutput', function(event,param) {
+    ipcRenderer.on('onZenEngineOutput', function (event, param) {
         $("#message").append(param + "<br/>");
     });
 
-    ipcRenderer.on('onZenEngineExit', function(event,param) {
+    ipcRenderer.on('onZenEngineExit', function (event, param) {
         $("#message").append("Engine process exited.....<br/>");
     });
 
-    ipcRenderer.on('onZenEngineError', function(event,param) {
+    ipcRenderer.on('onZenEngineError', function (event, param) {
         $("#message").append("Engine process throw error.....<br/>" + param);
     });
     //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
-    
-    $('#txtAddress').val(ReadAddress());
 
+    $('#txtAddress').val(ReadAddress());
 </script>
+
+</html>

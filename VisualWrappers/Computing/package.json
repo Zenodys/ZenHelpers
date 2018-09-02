@@ -10,5 +10,9 @@
   "devDependencies": {
     "electron": "2.0.8"
   },
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "browser-window": "^0.4.0",
+    "jquery": "^3.3.1"
+  }
 }
