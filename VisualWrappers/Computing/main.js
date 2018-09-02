@@ -13,6 +13,15 @@ app.on('ready', () => {
   });
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.on('closed', function() {
+    mainWindow = null;
+  });
+  
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform != 'darwin')
+    app.quit();
 });
 
 ipcMain.on("showVisualisations",function (event, arg) {
@@ -49,3 +58,5 @@ ipcMain.on("stopEngine",function (event, arg) {
   child.stdin.pause();
 	child.kill();
 });
+
+
