@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron');
 const { spawn } = require('child_process');
 const {ipcMain} = require('electron');
+const path = require('path');
 
 let mainWindow;
 let child;
@@ -15,15 +16,19 @@ app.on('ready', () => {
 });
 
 ipcMain.on("showVisualisations",function (event, arg) {
-        var newWindow        = new BrowserWindow({ width: 450, height: 300, show: 
-                                              false,webPreferences: {webSecurity: false,plugins:
-                                              true,nodeIntegration: false} });
-        newWindow.loadURL("http://localhost:9999/home/index");
-        newWindow.show();
+    var newWindow        = new BrowserWindow({ width: 450, height: 300, show: 
+                                          false,webPreferences: {webSecurity: false,plugins:
+                                          true,nodeIntegration: false} });
+    newWindow.loadURL("http://localhost:9999/home/index");
+    newWindow.show();
 });
 
 ipcMain.on("startEngine",function (event, arg) {
-    child = spawn("Test.exe");
+    child = spawn(path.join(__dirname, "ZenEngine\\ZenEngine.exe"),
+      {
+        cwd: path.join(__dirname, "ZenEngine")
+      }
+    );
 
 		child.stdout.on('data', (data) => {
 			console.log(data.toString());
