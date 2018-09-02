@@ -92,20 +92,20 @@
 
 <script type="text/javascript">
     const ipcRenderer = require('electron').ipcRenderer;
-
+     
     function ReadAddress() {
         const fs = require('fs');
 
-        if (!fs.existsSync("ZenEngine/address"))
+        if (!fs.existsSync(path.join(__dirname, "ZenEngine\\address")))
             return '';
 
-        return fs.readFileSync("ZenEngine/address");
+        return fs.readFileSync(path.join(__dirname, "ZenEngine\\address"));
     }
 
     $('#saveAddress').click(function () {
         const fs = require('fs');
 
-        fs.writeFile("ZenEngine/address", $('#txtAddress').val(),
+        fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
             function (err) {
                 if (err)
                     alert('Error in saving address!');
