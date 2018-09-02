@@ -1,9 +1,8 @@
 const {app, BrowserWindow} = require('electron');
 const { spawn } = require('child_process');
-const {ipcMain}     	= require('electron');
+const {ipcMain} = require('electron');
 
 let mainWindow;
-let cc_event;
 let child;
 
 app.on('ready', () => {
@@ -13,9 +12,6 @@ app.on('ready', () => {
   });
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
-  
-		
-		
 });
 
 ipcMain.on("showVisualisations",function (event, arg) {
@@ -26,28 +22,22 @@ ipcMain.on("showVisualisations",function (event, arg) {
         newWindow.show();
 });
 
-ipcMain.on("init",function (event, arg) {
-        cc_event = event;
-});
-
 ipcMain.on("startEngine",function (event, arg) {
     child = spawn("Test.exe");
 
 		child.stdout.on('data', (data) => {
 			console.log(data.toString());
-			cc_event.sender.send("onZenEngineOutput", data.toString());
+      mainWindow.webContents.send('onZenEngineOutput' , data.toString());
 		});
 
 		child.stderr.on('data', (data) => {
       var arg = data != null ? data : '';
-      cc_event.sender.send("onZenEngineError", arg);
-      
+      mainWindow.webContents.send("onZenEngineError", arg);
 		});
 		
     child.on('exit',(code, signal)=>{
-      cc_event.sender.send("onZenEngineExit");
+      mainWindow.webContents.send("onZenEngineExit");
     });
-	
 });
 
 ipcMain.on("stopEngine",function (event, arg) {
