@@ -16,8 +16,18 @@
  
     const ipcRenderer = require('electron').ipcRenderer; 
     
-    $('#saveAddress').click(function() {
+    function ReadAddress()
+    {
         const fs = require('fs');
+
+        if (!fs.existsSync("ZenEngine/address"))
+            return '';
+
+        return fs.readFileSync("ZenEngine/address");
+    }
+
+    $('#saveAddress').click(function() {
+        const fs = require('fs');    
         
         fs.writeFile("ZenEngine/address", $('#txtAddress').val() ,
             function(err) {
@@ -53,5 +63,7 @@
         $("#message").append("Engine process throw error.....<br/>" + param);
     });
     //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
+    
+    $('#txtAddress').val(ReadAddress());
 
 </script>
