@@ -7,21 +7,36 @@
 <button id="startEngine">Start</button>
 <button id="stopEngine">Stop</button>
 
+<button id="saveAddress">Save</button>
+<input id="txtAddress" />
+
 <div id="message"></div>
     	
 <script type="text/javascript">
  
     const ipcRenderer = require('electron').ipcRenderer; 
     
-    document.getElementById('startEngine').addEventListener('click', function () {
-	    ipcRenderer.send("startEngine");
+    $('#saveAddress').click(function() {
+        const fs = require('fs');
+        
+        fs.writeFile("ZenEngine/address", $('#txtAddress').val() ,
+            function(err) {
+                if(err)
+                    alert('Error in saving address!');
+                else
+                    alert("Address saved!");
+            });
     });
 
-    document.getElementById('stopEngine').addEventListener('click', function () {
-	    ipcRenderer.send("stopEngine");
+    $('#startEngine').click(function() {
+        ipcRenderer.send("startEngine");
     });
 
-    document.getElementById('visualisations').addEventListener('click', function () {
+    $('#stopEngine').click(function() {
+        ipcRenderer.send("stopEngine");
+    });
+
+    $('#visualisations').click(function() {
         ipcRenderer.send("showVisualisations");
     });
     
