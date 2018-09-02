@@ -1,0 +1,44 @@
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    
+<script src="main.js"></script>
+<script>if (window.module) module = window.module;</script>
+
+<button id="visualisations">Visualisations</button>
+<button id="startEngine">Start</button>
+<button id="stopEngine">Stop</button>
+
+<div id="message"></div>
+    	
+<script type="text/javascript">
+ 
+    const ipcRenderer = require('electron').ipcRenderer; 
+    ipcRenderer.send("init");
+    
+    document.getElementById('startEngine').addEventListener('click', function () {
+	    ipcRenderer.send("startEngine");
+    });
+
+    document.getElementById('stopEngine').addEventListener('click', function () {
+	    ipcRenderer.send("stopEngine");
+    });
+
+    document.getElementById('visualisations').addEventListener('click', function () {
+        ipcRenderer.send("showVisualisations");
+    });
+    
+    //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
+    ipcRenderer.on('onZenEngineOutput', function(event,param) {
+        $("#message").append(param + "<br/>");
+    });
+
+    ipcRenderer.on('onZenEngineExit', function(event,param) {
+        $("#message").append("Engine process exited.....<br/>");
+    });
+
+    ipcRenderer.on('onZenEngineError', function(event,param) {
+        $("#message").append("Engine process throw error.....<br/>" + param);
+    });
+    //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
+
+</script>
+
