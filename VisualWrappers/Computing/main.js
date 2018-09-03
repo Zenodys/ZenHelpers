@@ -40,9 +40,15 @@ ipcMain.on("startEngine",function (event, arg) {
     );
 
 		child.stdout.on('data', (data) => {
-			console.log(data.toString());
-      mainWindow.webContents.send('onZenEngineOutput' , data.toString());
-		});
+      if (isJSON(data.toString())) {
+        var cnt = JSON.parse(data);
+        mainWindow.webContents.send('onZenEngineCount' , cnt.Data);    
+      }
+      else{
+        console.log(data.toString());
+        mainWindow.webContents.send('onZenEngineOutput' , data.toString());  
+      }
+    });
 
 		child.stderr.on('data', (data) => {
       var arg = data != null ? data : '';
@@ -59,4 +65,13 @@ ipcMain.on("stopEngine",function (event, arg) {
 	child.kill();
 });
 
+function isJSON(text)
+{
+  if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+    replace(/(?:^|:|,)(?:\s*\[)+/g, '')))
+    return true
+  else
+    return false;
+}
 

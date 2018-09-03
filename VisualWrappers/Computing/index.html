@@ -24,7 +24,7 @@
         <div class="logo"></div>
         <div class="headline">Zenodys Control Panel </div>
     </header>
-
+    
 
     <div class="bd-example is-paddingless columns">
 
@@ -35,6 +35,8 @@
     <div class="columns is-mobile is-4">
 
         <div class="column">
+            <div class="button is-info" id="counter"></div>
+
             <button id="visualisations" class="button is-info">Visualisations</button>
             <br>
             <br>
@@ -129,6 +131,10 @@
     //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
     ipcRenderer.on('onZenEngineOutput', function (event, param) {
         $("#message").append(param + "<br/>");
+    });
+
+    ipcRenderer.on('onZenEngineCount', function (event, param) {
+        $("#counter").html("<h1>"+ param +"/10000</h1>");
     });
 
     ipcRenderer.on('onZenEngineExit', function (event, param) {
