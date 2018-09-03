@@ -9,67 +9,98 @@
 
     <title>Zenodys Control Panel</title>
 
-    <link href="assets/fonts/web/fonts.css" rel="stylesheet">
-    <link href="assets/css/bulma.min.css" rel="stylesheet">
-    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/scss/app.css" rel="stylesheet">
     <link href="assets/icons/app-ui-icons/style.css" rel="stylesheet">
-    <link href="assets/css/jquery-ui.css" rel="stylesheet">
+
 
 </head>
 
-<body>
-
-
-    <header class="header columns is-clearfix">
-        <div class="logo"></div>
-        <div class="headline">Zenodys Control Panel </div>
-    </header>
-    
-
-    <div class="bd-example is-paddingless columns">
-
-
-    </div>
-
-
-    <div class="columns is-mobile is-4">
-
-        <div class="column">
-            <div class="button is-info" id="counter"></div>
-
-            <button id="visualisations" class="button is-info">Visualisations</button>
-            <br>
-            <br>
-
-            <button id="startEngine" class="button is-success is-fullwidth is-rounded">Start</button>
-            <button id="stopEngine" class="button is-danger is-fullwidth is-rounded">Stop</button>
-
-            <br>
-            <br>
-
-
-
-
-            <div class="field has-addons">
-                <div class="control">
-                    <input class="input" type="text" placeholder="Your ETH address" id="txtAddress" />
+<body class="bg-light-grey">
+    <div class="navigation-wrapper small">
+        <nav class="grid-container ">
+            <div class="grid-x align-middle">
+                <div class="large-2 medium-2 small-2 ">
+                    <a href="https://www.zenodys.com/" id="logo-home" class="align-left logo">
+                        <img src="https://zz.zenodys.com/assets/img/zenodys-logo-2.1.svg" alt="Zenodys logo">
+                    </a>
                 </div>
-                <div class="control">
-
-                    <button id="saveAddress" class="button is-success">Save</button>
-
+                <div class="large-4 medium-8 small-8 ">
+                    <strong class="uppercase txt-white-87 txt-space-10">
+                        Zenodys Control Panel
+                    </strong>
+                </div>
+                <div class="large-4 medium-8 small-8 text-right">
                 </div>
             </div>
-
-
-
-        </div>
-
-        <div class="column is-four-fifths">
-            <div id="message" class="card console"></div>
-        </div>
-
+        </nav>
     </div>
+
+
+
+    <section id="open-call-list" class="grid-container grid-padding-x">
+        <div class="grid-x align-middle">
+            <div class="cell large-offset-2">
+                <h1 class="txt-22pt txt-blue-a-27 no-margin-all" style="padding:30px 0"><a href="/" class="txt-blue-a-27">
+                        Script
+                    </a>
+                    &nbsp; <span class="txt-28pt">&rsaquo;</span>&nbsp;
+                    <span class="txt-blue-a-54">Process and RAM data from your computer</span></h1>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="grid-container">
+            <div class="grid-x align-top grid-margin-x">
+                <div class="large-4 cell large-offset-2">
+
+                    <div class="simple-card">
+                        <div class="card-header">
+                            <span class="badge secondary float-left txt-blue-a-27">1</span> Settings
+                        </div>
+                        <label class="txt-14pt" style="letter-spacing: 0px">Etherum wallet</label>
+                        <input class="input" type="text" placeholder="Your ETH address" id="txtAddress" />
+                        <div class="card-footer">
+                            <button id="saveAddress" class="button radius expanded no-margin-all">Save</button>
+                        </div>
+                    </div>
+
+                    <div class="simple-card">
+
+                        <div class="card-header">
+                            <span class="badge secondary float-left">2</span>Zen Engine
+                        </div>
+                        <button id="startEngineToggle" class="button is-success radius txt-white-100 no-margin-all success expanded no-margin-al">Start</button>
+                        <small class="status-wrapper">Status: <strong class="status-light">Stopped</strong></small>
+
+                    </div>
+                    <br>
+                    <br>
+
+
+
+                    <br>
+                    <br>
+
+                </div>
+                <div class="large-6 cell">
+                    <div class="simple-card">
+                        <div class="card-header">
+                            <span class="badge secondary float-left">3</span> Visualisations</div>
+                        <button id="visualisations" class="button is-info expanded no-margin-all radius">Open</button>
+
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-header"> Console</div>
+                        <div id="message" class="console-output"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
 
@@ -83,6 +114,9 @@
     }
     // Load jQuery
     window.$ = window.jQuery = require("jquery");
+    // Load foundation
+    window.foundation = require("foundation-sites");
+    window.moment = require("moment")
 </script>
 
 
@@ -94,7 +128,7 @@
 
 <script type="text/javascript">
     const ipcRenderer = require('electron').ipcRenderer;
-     
+
     function ReadAddress() {
         const fs = require('fs');
 
@@ -116,34 +150,89 @@
             });
     });
 
-    $('#startEngine').click(function () {
-        ipcRenderer.send("startEngine");
-    });
-
-    $('#stopEngine').click(function () {
-        ipcRenderer.send("stopEngine");
-    });
 
     $('#visualisations').click(function () {
         ipcRenderer.send("showVisualisations");
     });
 
     //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
-    ipcRenderer.on('onZenEngineOutput', function (event, param) {
-        $("#message").append(param + "<br/>");
-    });
 
     ipcRenderer.on('onZenEngineCount', function (event, param) {
-        $("#counter").html("<h1>"+ param +"/10000</h1>");
+        $("#counter").html("<h1>" + param + "/10000</h1>");
     });
 
     ipcRenderer.on('onZenEngineExit', function (event, param) {
         $("#message").append("Engine process exited.....<br/>");
     });
+    (() => {
 
-    ipcRenderer.on('onZenEngineError', function (event, param) {
-        $("#message").append("Engine process throw error.....<br/>" + param);
-    });
+        // variables
+        let console_output_counter = 0;
+        let isEngineStarted = false;
+        let $engineToggle = $("#startEngineToggle");
+        let $status = $(".status-light");
+
+        // functions
+        html = (a) => {
+            return `<span><strong class="radius secondary float-right">${moment().format('hh:mm:ss a')}</strong> ${a}<span>`;
+        }
+
+
+        onUpdateEngine = (state) => {
+            if (state) {
+                console_output_counter++;
+                isEngineStarted = true;
+
+                $engineToggle.removeClass("success").addClass("alert").html("Stop");
+                $status.addClass("running").html("Started");
+
+            } else {
+                isEngineStarted = false;
+                $engineToggle.removeClass("alert").addClass("success").html("Start");
+                $status.removeClass("running").html("Stopped");
+            }
+
+            console.log(isEngineStarted)
+        }
+
+
+
+
+
+        // events
+        $engineToggle.on('click', (e) => {
+            //           e.preventDefault();
+
+            if ($engineToggle.hasClass("alert")) {
+                ipcRenderer.send("stopEngine");
+            }
+
+
+            if ($engineToggle.hasClass("success")) {
+                ipcRenderer.send("startEngine");
+            }
+
+
+        })
+
+
+        ipcRenderer.on('onZenEngineOutput', function (event, param) {
+            $("#message").append(html(param) + "<br/>");
+            onUpdateEngine(true);
+        });
+
+        ipcRenderer.on('onZenEngineExit', function (event, param) {
+            $("#message").append("Engine process exited.....<br/>");
+            onUpdateEngine(false);
+        });
+
+        ipcRenderer.on('onZenEngineError', function (event, param) {
+            $("#message").append("Engine process throw error.....<br/>" + param);
+            onUpdateEngine(true);
+        });
+
+    })();
+
     //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
 
     $('#txtAddress').val(ReadAddress());
