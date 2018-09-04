@@ -83,12 +83,28 @@
                     <br>
 
                 </div>
-                <div class="large-6 cell">
-                    <div class="simple-card">
-                        <div class="card-header">
-                            <span class="badge secondary float-left">3</span> Visualisations</div>
-                        <button id="visualisations" class="button is-info expanded no-margin-all radius">Open</button>
 
+
+                <div class="large-6 cell">
+
+                    <div class="grid-x align-top grid-margin-x">
+                        <div class="large-6 cell">
+                            <div class="simple-card">
+                                <div class="card-header">
+                                    <span class="badge secondary float-left">3</span> Visualisations</div>
+                                <button id="visualisations" class="button disabled is-info expanded no-margin-all radius">Open</button>
+
+                            </div>
+                        </div>
+
+
+                        <div class="large-6 cell">
+                            <div class="simple-card">
+                                <div class="card-header">
+                                    Earnings</div>
+                                <h2 class="no-margin-all txt-32pt"><span id="earnings">0,00</span></h2>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="simple-card">
@@ -157,13 +173,7 @@
 
     //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
 
-    ipcRenderer.on('onZenEngineCount', function (event, param) {
-        $("#counter").html("<h1>" + param + "/10000</h1>");
-    });
 
-    ipcRenderer.on('onZenEngineExit', function (event, param) {
-        $("#message").append("Engine process exited.....<br/>");
-    });
     (() => {
 
         // variables
@@ -171,6 +181,8 @@
         let isEngineStarted = false;
         let $engineToggle = $("#startEngineToggle");
         let $status = $(".status-light");
+        let $visualisations = $('#visualisations');
+
 
         // functions
         html = (a) => {
@@ -185,11 +197,13 @@
 
                 $engineToggle.removeClass("success").addClass("alert").html("Stop");
                 $status.addClass("running").html("Started");
+                $visualisations.removeClass("disabled");
 
             } else {
                 isEngineStarted = false;
                 $engineToggle.removeClass("alert").addClass("success").html("Start");
                 $status.removeClass("running").html("Stopped");
+                $visualisations.addClass("disabled");
             }
 
             console.log(isEngineStarted)
@@ -201,7 +215,7 @@
 
         // events
         $engineToggle.on('click', (e) => {
-            //           e.preventDefault();
+            e.preventDefault();
 
             if ($engineToggle.hasClass("alert")) {
                 ipcRenderer.send("stopEngine");
@@ -212,21 +226,31 @@
                 ipcRenderer.send("startEngine");
             }
 
+        });
 
-        })
+
+        $visualisations.click(function () {
+            if (!$visualisations.hasClass("disabled")) {
+                ipcRenderer.send("showVisualisations");
+            }
+        });
 
 
-        ipcRenderer.on('onZenEngineOutput', function (event, param) {
+        ipcRenderer.on('onZenEngineCount', (event, param) => {
+            $("#earnings").html(param + '<strong class="txt-18pt">ZZ</strong>/10000');
+        });
+
+        ipcRenderer.on('onZenEngineOutput', (event, param) => {
             $("#message").append(html(param) + "<br/>");
             onUpdateEngine(true);
         });
 
-        ipcRenderer.on('onZenEngineExit', function (event, param) {
+        ipcRenderer.on('onZenEngineExit', (event, param) => {
             $("#message").append("Engine process exited.....<br/>");
             onUpdateEngine(false);
         });
 
-        ipcRenderer.on('onZenEngineError', function (event, param) {
+        ipcRenderer.on('onZenEngineError', (event, param) => {
             $("#message").append("Engine process throw error.....<br/>" + param);
             onUpdateEngine(true);
         });
