@@ -112,6 +112,12 @@ body {
     //font-family: "montserratsemibold";
 }
 
+.button.secondary.inverted {
+    border: 1px solid #d7dae2;
+    color: #4d4f5c;
+    background: rgba(0, 0, 0, .02);
+}
+
 .hollow {
     border-width: 2px !important;
 }
@@ -478,6 +484,12 @@ section {
     padding-left: 1.25rem;
 }
 
+.uptime-wrapper {
+    display: inline-block;
+    margin-top: .25rem;
+    position: relative;
+}
+
 .status-light:before {
     position: absolute;
     background: white;
@@ -502,4 +514,10 @@ section {
 #txtAddress {
     font-family: $font-family-monospace;
     letter-spacing: -.025rem;
+}
+
+#console-clear {
+    position: absolute;
+    right: 1rem;
+    top: 8px;
 }
