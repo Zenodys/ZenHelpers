@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "browser-window": "^0.4.0",
+    "ethereum-address": "0.0.4",
     "foundation-sites": "^6.5.0-rc.2",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",

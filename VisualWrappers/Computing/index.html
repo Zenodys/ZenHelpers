@@ -11,9 +11,8 @@
 
     <link href="assets/scss/app.css" rel="stylesheet">
     <link href="assets/icons/app-ui-icons/style.css" rel="stylesheet">
-
-
 </head>
+
 
 <body class="bg-light-grey">
     <div class="navigation-wrapper small">
@@ -59,7 +58,7 @@
                             <span class="badge secondary float-left txt-blue-a-27">1</span> Settings
                         </div>
                         <label class="txt-14pt" style="letter-spacing: 0px">Etherum wallet</label>
-                        <input class="input" type="text" placeholder="Your ETH address" id="txtAddress" />
+                        <input class="input" type="text" placeholder="0x0000000000000000000000000000000000000000" id="txtAddress" />
                         <div class="card-footer">
                             <button id="saveAddress" class="button radius expanded no-margin-all">Save</button>
                         </div>
@@ -70,23 +69,18 @@
                         <div class="card-header">
                             <span class="badge secondary float-left">2</span>Zen Engine
                         </div>
-                        <button id="startEngineToggle" class="button is-success radius txt-white-100 no-margin-all success expanded no-margin-al">Start</button>
+                        <button id="startEngineToggle" class="button is-success radius txt-white-100 no-margin-all disabled success expanded no-margin-al">Start</button>
                         <small class="status-wrapper">Status: <strong class="status-light">Stopped</strong></small>
 
                     </div>
                     <br>
                     <br>
-
-
-
                     <br>
                     <br>
-
                 </div>
 
 
                 <div class="large-6 cell">
-
                     <div class="grid-x align-top grid-margin-x">
                         <div class="large-6 cell">
                             <div class="simple-card">
@@ -96,8 +90,6 @@
 
                             </div>
                         </div>
-
-
                         <div class="large-6 cell">
                             <div class="simple-card">
                                 <div class="card-header">
@@ -106,11 +98,9 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="simple-card">
                         <div class="card-header"> Console</div>
                         <div id="message" class="console-output"></div>
-
                     </div>
                 </div>
             </div>
@@ -128,46 +118,31 @@
         window.module = module;
         module = undefined;
     }
-    // Load jQuery
+    // Load modules
     window.$ = window.jQuery = require("jquery");
-    // Load foundation
     window.foundation = require("foundation-sites");
     window.moment = require("moment")
+    window.ethereum_address = require("ethereum-address");
+    window.fs = require('fs');
 </script>
 
 
 <script src="main.js"></script>
-<script>
-    if (window.module) module = window.module;
-</script>
 
 
 <script type="text/javascript">
+    if (window.module) module = window.module;
+
     const ipcRenderer = require('electron').ipcRenderer;
 
     function ReadAddress() {
-        const fs = require('fs');
-
         if (!fs.existsSync(path.join(__dirname, "ZenEngine\\address")))
             return '';
 
         return fs.readFileSync(path.join(__dirname, "ZenEngine\\address"));
     }
 
-    $('#saveAddress').click(function () {
-        const fs = require('fs');
-
-        fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
-            function (err) {
-                if (err)
-                    alert('Error in saving address!');
-                else
-                    alert("Address saved!");
-            });
-    });
-
-
-    $('#visualisations').click(function () {
+    $('#visualisations').click(() => {
         ipcRenderer.send("showVisualisations");
     });
 
@@ -182,6 +157,11 @@
         let $engineToggle = $("#startEngineToggle");
         let $status = $(".status-light");
         let $visualisations = $('#visualisations');
+        let read_etherum_wallet = ReadAddress();
+        let $ethWallet = $('#txtAddress');
+
+
+
 
 
         // functions
@@ -205,25 +185,31 @@
                 $status.removeClass("running").html("Stopped");
                 $visualisations.addClass("disabled");
             }
-
-            console.log(isEngineStarted)
         }
 
 
-
-
+        // init
+        if (read_etherum_wallet.asciiSlice() !== "") {
+            $engineToggle.removeClass("disabled");
+            $('#txtAddress').val(read_etherum_wallet);
+        }
 
         // events
         $engineToggle.on('click', (e) => {
             e.preventDefault();
 
-            if ($engineToggle.hasClass("alert")) {
-                ipcRenderer.send("stopEngine");
-            }
+
+            if (!$engineToggle.hasClass("disabled")) {
+                if ($engineToggle.hasClass("alert")) {
+                    ipcRenderer.send("stopEngine");
+                }
 
 
-            if ($engineToggle.hasClass("success")) {
-                ipcRenderer.send("startEngine");
+                if ($engineToggle.hasClass("success")) {
+                    ipcRenderer.send("startEngine");
+                }
+            } else {
+                alert("You must first enther a valid ETH address");
             }
 
         });
@@ -235,6 +221,28 @@
             }
         });
 
+
+        $('#saveAddress').click((e) => {
+            e.preventDefault();
+
+            if (ethereum_address.isAddress($ethWallet.val())) {
+                fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
+                    function (err) {
+                        if (err)
+                            alert('Error in saving address!');
+                        else
+                            alert("Address saved.");
+                        $engineToggle.removeClass("disabled");
+                    });
+            } else {
+                alert('Not a valid ETH address. Please check your address.');
+            }
+
+
+        });
+
+
+        //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
 
         ipcRenderer.on('onZenEngineCount', (event, param) => {
             $("#earnings").html(param + '<strong class="txt-18pt">ZZ</strong>/10000');
@@ -256,10 +264,6 @@
         });
 
     })();
-
-    //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
-
-    $('#txtAddress').val(ReadAddress());
 </script>
 
 </html>
