@@ -42,21 +42,21 @@ ipcMain.on("startEngine",function (event, arg) {
 		child.stdout.on('data', (data) => {
       if (isJSON(data.toString())) {
         var cnt = JSON.parse(data);
-        mainWindow.webContents.send('onZenEngineCount' , cnt.Data);    
+        sendToRenderer ('onZenEngineCount' , cnt.Data);    
       }
       else{
         console.log(data.toString());
-        mainWindow.webContents.send('onZenEngineOutput' , data.toString());  
+        sendToRenderer('onZenEngineOutput' , data.toString());  
       }
     });
 
 		child.stderr.on('data', (data) => {
       var arg = data != null ? data : '';
-      mainWindow.webContents.send("onZenEngineError", arg);
+      sendToRenderer("onZenEngineError", arg);
 		});
 		
     child.on('exit',(code, signal)=>{
-      mainWindow.webContents.send("onZenEngineExit");
+      sendToRenderer("onZenEngineExit");
     });
 });
 
@@ -64,6 +64,12 @@ ipcMain.on("stopEngine",function (event, arg) {
   child.stdin.pause();
 	child.kill();
 });
+
+function sendToRenderer(topic, arg)
+{
+  if (mainWindow != null && mainWindow.webContents != null)
+    mainWindow.webContents.send(topic, arg);
+}
 
 function isJSON(text)
 {
