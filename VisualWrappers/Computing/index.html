@@ -194,6 +194,8 @@
                 }, 0);
 
                 $saveAddressBtn.addClass('disabled');
+                $ethWallet.prop('disabled', true);
+
 
             } else {
                 isEngineStarted = false;
@@ -204,6 +206,7 @@
 
                 uptimeMemory.clear();
                 $saveAddressBtn.removeClass('disabled');
+                $ethWallet.prop('disabled', false);
 
             }
         }
@@ -212,7 +215,7 @@
         // init
         if (read_etherum_wallet.asciiSlice() !== "") {
             $engineToggle.removeClass("disabled");
-            $('#txtAddress').val(read_etherum_wallet);
+            $ethWallet.val(read_etherum_wallet);
         }
 
         // events
@@ -255,7 +258,7 @@
 
             if (!$saveAddressBtn.hasClass("disabled")) {
                 if (ethereum_address.isAddress($ethWallet.val())) {
-                    fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
+                    fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $ethWallet.val(),
                         function (err) {
                             if (err)
                                 alert('Error in saving address!');
@@ -265,6 +268,7 @@
                         });
                 } else {
                     alert('Not a valid ETH address. Please check your address.');
+                    $ethWallet.val(read_etherum_wallet);
                 }
 
             } else {
@@ -284,7 +288,7 @@
 
         ipcRenderer.on('onZenEngineOutput', (event, param) => {
             $console.append(html(param) +
-                "<br/>dasdasd<br/>sdasdasd<br/>sadasdsadasdsa<br/>sadasdasdsadsdsadsda<br/>dasdasd<br/>sdasdasd<br/>sadasdsadasdsa<br/>sadasdasdsadsdsadsda<br/>"
+                "<br/>"
             );
             onUpdateEngine(true);
         });

@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -12,3 +12,5 @@
 /VisualWrappers/Computing/builds/*
 /VisualWrappers/Computing/release-builds/*
 
+VisualWrappers/address.1
+VisualWrappers/project/

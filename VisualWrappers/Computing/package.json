@@ -4,7 +4,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack-win": "electron-packager . zenodys-control-panel --overwrite --icon=assets/icons/win/icon.ico --out=builds",
+    "pack-win": "electron-packager . zenodys-control-panel  --platform=win32  --overwrite --icon=assets/icons/win/icon.ico --out=builds",
     "pack-linux": "electron-packager . zenodys-control-panel --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
   "author": "",
@@ -16,6 +16,7 @@
   },
   "description": "",
   "dependencies": {
+    "asar": "^0.14.3",
     "browser-window": "^0.4.0",
     "ethereum-address": "0.0.4",
     "foundation-sites": "^6.5.0-rc.2",
