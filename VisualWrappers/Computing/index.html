@@ -100,7 +100,7 @@
                     </div>
                     <div class="simple-card">
                         <div class="card-header"> Console
-                            <a id="console-clear" href="#" class="button small radius no-margin-all secondary inverted">Clean
+                            <a id="console-clear" href="#" class="button small radius no-margin-all secondary inverted">Clear
                                 console</a></div>
                         <div id="message" class="console-output"></div>
                     </div>
@@ -161,6 +161,7 @@
         let engineUptime = new uptime();
         let $cleanConsoleBtn = $("#console-clear");
         let $console = $("#message");
+        let $saveAddressBtn = $('#saveAddress');
 
 
 
@@ -186,6 +187,14 @@
                     uptimeMemory.set();
                 }
 
+
+
+                $console.stop().animate({
+                    scrollTop: $console[0].scrollHeight
+                }, 0);
+
+                $saveAddressBtn.addClass('disabled');
+
             } else {
                 isEngineStarted = false;
                 $engineToggle.removeClass("alert").addClass("success").html("Start");
@@ -194,6 +203,8 @@
                 engineUptime.stop();
 
                 uptimeMemory.clear();
+                $saveAddressBtn.removeClass('disabled');
+
             }
         }
 
@@ -228,7 +239,6 @@
 
         $cleanConsoleBtn.on('click', function (e) {
             e.preventDefault();
-
             $console.html("");
         });
 
@@ -240,23 +250,28 @@
         });
 
 
-        $('#saveAddress').on('click', (e) => {
+        $saveAddressBtn.on('click', (e) => {
             e.preventDefault();
 
-            if (ethereum_address.isAddress($ethWallet.val())) {
-                fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
-                    function (err) {
-                        if (err)
-                            alert('Error in saving address!');
-                        else
-                            alert("Address saved.");
-                        $engineToggle.removeClass("disabled");
-                    });
+            if (!$saveAddressBtn.hasClass("disabled")) {
+                if (ethereum_address.isAddress($ethWallet.val())) {
+                    fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $('#txtAddress').val(),
+                        function (err) {
+                            if (err)
+                                alert('Error in saving address!');
+                            else
+                                alert("Address saved.");
+                            $engineToggle.removeClass("disabled");
+                        });
+                } else {
+                    alert('Not a valid ETH address. Please check your address.');
+                }
+
             } else {
-                alert('Not a valid ETH address. Please check your address.');
+                alert(
+                    "Can't change ETH address while Zen Engine is running. To ETH address please stop Zen Engine first."
+                )
             }
-
-
         });
 
 
@@ -268,7 +283,9 @@
         });
 
         ipcRenderer.on('onZenEngineOutput', (event, param) => {
-            $console.append(html(param) + "<br/>");
+            $console.append(html(param) +
+                "<br/>dasdasd<br/>sdasdasd<br/>sadasdsadasdsa<br/>sadasdasdsadsdsadsda<br/>dasdasd<br/>sdasdasd<br/>sadasdsadasdsa<br/>sadasdasdsadsdsadsda<br/>"
+            );
             onUpdateEngine(true);
         });
 
