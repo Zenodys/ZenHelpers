@@ -139,7 +139,7 @@
 
     function ReadAddress() {
         if (!fs.existsSync(path.join(__dirname, "ZenEngine\\address")))
-            return '';
+            return null;
 
         return fs.readFileSync(path.join(__dirname, "ZenEngine\\address"));
     }
@@ -211,9 +211,9 @@
             }
         }
 
-
+        
         // init
-        if (read_etherum_wallet.asciiSlice() !== "") {
+        if (read_etherum_wallet !== null && read_etherum_wallet.asciiSlice() !== "") {
             $engineToggle.removeClass("disabled");
             $ethWallet.val(read_etherum_wallet);
         }
