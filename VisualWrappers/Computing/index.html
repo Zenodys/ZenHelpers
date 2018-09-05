@@ -185,13 +185,18 @@
                 $visualisations.removeClass("disabled");
                 engineUptime.start();
 
+                if (!uptimeMemory.exists()) {
+                    uptimeMemory.set();
+                }
+
             } else {
                 isEngineStarted = false;
                 $engineToggle.removeClass("alert").addClass("success").html("Start");
                 $status.removeClass("running").html("Stopped");
                 $visualisations.addClass("disabled");
                 engineUptime.stop();
-                engineUptime.reset();
+
+                uptimeMemory.clear();
             }
         }
 
@@ -261,7 +266,8 @@
         //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
 
         ipcRenderer.on('onZenEngineCount', (event, param) => {
-            $("#earnings").html(param + '<strong class="txt-18pt">ZZ</strong>/10000');
+            $("#earnings").html(param +
+                '<strong class="txt-18pt">ZZ</strong><small class="txt-blue-a-27"> / 10000<small>');
         });
 
         ipcRenderer.on('onZenEngineOutput', (event, param) => {
@@ -282,36 +288,84 @@
     })();
 
 
+    var uptimeMemory = {
+        set: function () {
+            fs.writeFile(path.join(__dirname, "engine"), moment.now(), function (err) {
+
+            });
+        },
+
+        get: function () {
+            return parseInt(fs.readFileSync(path.join(__dirname, "engine")).asciiSlice());
+        },
+
+        exists: function () {
+            if (fs.readFileSync(path.join(__dirname, "engine")).asciiSlice().length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        clear: function () {
+            fs.writeFile(path.join(__dirname, "engine"), "", function (err) {
+
+            });
+        }
+    }
+
 
     function uptime() {
         let counter = 0;
         let runClock = null;
         let time = null;
         let $uptimeTicker = $(".uptime-ticker");
+        let uptimeMemoryCheck = false;
 
 
         function displayTime() {
-            time = moment().hour(0).minute(0).second(counter++).format('HH : mm : ss');
-            //console.log(time);
-            $uptimeTicker.html(time)
+
+            if (uptimeMemory.exists() && uptimeMemoryCheck == false) {
+
+
+                let now = moment().format('DD/MM/YYYY HH:mm:ss');
+                let then = moment(uptimeMemory.get()).format('DD/MM/YYYY HH:mm:ss');
+                let ms = moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"));
+                let d = moment.duration(ms);
+
+                counter = d.asSeconds();
+
+                time = moment().hour(0).minute(0).second(counter).format('HH : mm : ss');
+                //console.log(time);
+                $uptimeTicker.html(time);
+                uptimeMemoryCheck = true;
+            } else {
+                time = moment().hour(0).minute(0).second(counter++).format('HH : mm : ss');
+                $uptimeTicker.html(time);
+            }
+
+
+
         }
 
         this.start = function () {
             if (runClock == null) {
                 runClock = setInterval(displayTime, 1000);
+                engineStart = moment.now();
+
+
             }
         }
 
         this.stop = function () {
             clearInterval(runClock);
+            $uptimeTicker.html("00 : 00 : 00");
             runClock = null;
             time = null;
+            uptimeMemoryCheck = false;
         }
 
-        this.reset = function () {
-            counter = 0;
-            displayTime();
-        }
+
     }
 </script>
 
