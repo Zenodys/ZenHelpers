@@ -9,6 +9,7 @@ const {
   ipcMain
 } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 let mainWindow;
 let child;
@@ -22,6 +23,7 @@ app.on('ready', () => {
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.on('closed', function () {
+    fs.writeFile(path.join(__dirname, "engine"), "", function (err) {});
     mainWindow = null;
   });
 
@@ -34,9 +36,10 @@ app.on('window-all-closed', () => {
 
 ipcMain.on("showVisualisations", function (event, arg) {
   var newWindow = new BrowserWindow({
-    width: 450,
-    height: 300,
+    width: 1280,
+    height: 1024,
     show: false,
+    icon: path.join(__dirname, 'assets/icons/zenodys-icon-128x128.ico'),
     webPreferences: {
       webSecurity: false,
       plugins: true,

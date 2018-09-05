@@ -9,4 +9,6 @@
 /VisualWrappers/Computing/ZenUI.exe
 /VisualWrappers/Computing/ZenUI.exe.config
 /VisualWrappers/Computing/content/*
+/VisualWrappers/Computing/builds/*
+/VisualWrappers/Computing/release-builds/*
 

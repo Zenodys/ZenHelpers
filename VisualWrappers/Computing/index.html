@@ -144,9 +144,6 @@
         return fs.readFileSync(path.join(__dirname, "ZenEngine\\address"));
     }
 
-    $('#visualisations').on('click', () => {
-        ipcRenderer.send("showVisualisations");
-    });
 
     //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
 

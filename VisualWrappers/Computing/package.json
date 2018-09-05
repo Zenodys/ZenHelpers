@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack-win": "electron-packager . zenodys-control-panel --overwrite --icon=assets/icons/win/icon.ico --out=builds",
+    "pack-linux": "electron-packager . zenodys-control-panel --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "2.0.8"
+    "electron": "2.0.8",
+    "electron-installer-dmg": "^2.0.0",
+    "electron-packager": "^12.1.1"
   },
   "description": "",
   "dependencies": {
