@@ -140,7 +140,7 @@ function ControlPanel(data) {
             $engineToggle.removeClass("disabled");
           });
       } else {
-        alert('Not a valid ETH address. Please check your address.');
+        alert('Not a valid Ethereum (ETH) wallet address. Please check your address.');
         $ethWallet.val(read_etherum_wallet);
       }
 
