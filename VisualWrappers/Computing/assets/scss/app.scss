@@ -521,3 +521,21 @@ section {
     right: 1rem;
     top: 8px;
 }
+
+.progress-bar {
+    position: relative;
+    top: -2px;
+    width: calc(100% - 6px);
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .07);
+}
+
+.progress-bar-fill {
+    display: block;
+    height: 5px;
+    background: rgba(61, 93, 237, 0.54);
+    border-radius: 3px;
+    transition: width 250ms ease-in-out;
+}

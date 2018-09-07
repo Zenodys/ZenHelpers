@@ -93,8 +93,18 @@
                         <div class="large-6 cell">
                             <div class="simple-card">
                                 <div class="card-header">
-                                    Earnings</div>
-                                <h2 class="no-margin-all txt-32pt"><span id="earnings">0,00</span></h2>
+                                    Earnings
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="progress-bar-fill" style="width: 0%"></span>
+                                </div>
+
+                                <h2 class="no-margin-all txt-32pt">
+                                    <span id="earnings">0,00</span>
+                                    <strong class="txt-18pt"></strong>
+                                    <small class="txt-blue-a-27"> / <span id="quote">0</span><small>
+
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -120,271 +130,17 @@
         window.module = module;
         module = undefined;
     }
-    // Load modules
+
+    // Load modules globally
     window.$ = window.jQuery = require("jquery");
     window.foundation = require("foundation-sites");
     window.moment = require("moment")
     window.ethereum_address = require("ethereum-address");
     window.fs = require('fs');
+    window.ipcRenderer = require('electron').ipcRenderer;
 </script>
-
 
 <script src="main.js"></script>
-
-
-<script type="text/javascript">
-    if (window.module) module = window.module;
-
-    const ipcRenderer = require('electron').ipcRenderer;
-
-    function ReadAddress() {
-        if (!fs.existsSync(path.join(__dirname, "ZenEngine\\address")))
-            return null;
-
-        return fs.readFileSync(path.join(__dirname, "ZenEngine\\address"));
-    }
-
-
-    //*******************   START ZEN ENGINE EVENT HANDLERS ****************//
-
-
-    (() => {
-
-        // variables
-        let console_output_counter = 0;
-        let isEngineStarted = false;
-        let $engineToggle = $("#startEngineToggle");
-        let $status = $(".status-light");
-        let $visualisations = $('#visualisations');
-        let read_etherum_wallet = ReadAddress();
-        let $ethWallet = $('#txtAddress');
-        let engineUptime = new uptime();
-        let $cleanConsoleBtn = $("#console-clear");
-        let $console = $("#message");
-        let $saveAddressBtn = $('#saveAddress');
-
-
-
-
-
-        // functions
-        html = (a) => {
-            return `<span><strong class="radius secondary float-right">${moment().format('hh:mm:ss a')}</strong> ${a}<span>`;
-        }
-
-
-        onUpdateEngine = (state) => {
-            if (state) {
-                console_output_counter++;
-                isEngineStarted = true;
-
-                $engineToggle.removeClass("success").addClass("alert").html("Stop");
-                $status.addClass("running").html("Started");
-                $visualisations.removeClass("disabled");
-                engineUptime.start();
-
-                if (!uptimeMemory.exists()) {
-                    uptimeMemory.set();
-                }
-
-
-
-                $console.stop().animate({
-                    scrollTop: $console[0].scrollHeight
-                }, 0);
-
-                $saveAddressBtn.addClass('disabled');
-                $ethWallet.prop('disabled', true);
-
-
-            } else {
-                isEngineStarted = false;
-                $engineToggle.removeClass("alert").addClass("success").html("Start");
-                $status.removeClass("running").html("Stopped");
-                $visualisations.addClass("disabled");
-                engineUptime.stop();
-
-                uptimeMemory.clear();
-                $saveAddressBtn.removeClass('disabled');
-                $ethWallet.prop('disabled', false);
-
-            }
-        }
-
-        
-        // init
-        if (read_etherum_wallet !== null && read_etherum_wallet.asciiSlice() !== "") {
-            $engineToggle.removeClass("disabled");
-            $ethWallet.val(read_etherum_wallet);
-        }
-
-        // events
-        $engineToggle.on('click', (e) => {
-            e.preventDefault();
-
-
-            if (!$engineToggle.hasClass("disabled")) {
-                if ($engineToggle.hasClass("alert")) {
-                    ipcRenderer.send("stopEngine");
-                }
-
-
-                if ($engineToggle.hasClass("success")) {
-                    ipcRenderer.send("startEngine");
-                }
-            } else {
-                alert("You must first enter a valid ETH address");
-            }
-
-        });
-
-
-
-        $cleanConsoleBtn.on('click', function (e) {
-            e.preventDefault();
-            $console.html("");
-        });
-
-
-        $visualisations.on('click', function () {
-            if (!$visualisations.hasClass("disabled")) {
-                ipcRenderer.send("showVisualisations");
-            }
-        });
-
-
-        $saveAddressBtn.on('click', (e) => {
-            e.preventDefault();
-
-            if (!$saveAddressBtn.hasClass("disabled")) {
-                if (ethereum_address.isAddress($ethWallet.val())) {
-                    fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $ethWallet.val(),
-                        function (err) {
-                            if (err)
-                                alert('Error in saving address!');
-                            else
-                                alert("Address saved.");
-                            $engineToggle.removeClass("disabled");
-                        });
-                } else {
-                    alert('Not a valid ETH address. Please check your address.');
-                    $ethWallet.val(read_etherum_wallet);
-                }
-
-            } else {
-                alert(
-                    "Can't change ETH address while Zen Engine is running. To change ETH address please stop Zen Engine first."
-                )
-            }
-        });
-
-
-        //*******************   END ZEN ENGINE EVENT HANDLERS ****************//
-
-        ipcRenderer.on('onZenEngineCount', (event, param) => {
-            $("#earnings").html(param +
-                '<strong class="txt-18pt">ZZ</strong><small class="txt-blue-a-27"> / 10000<small>');
-        });
-
-        ipcRenderer.on('onZenEngineOutput', (event, param) => {
-            $console.append(html(param) +
-                "<br/>"
-            );
-            onUpdateEngine(true);
-        });
-
-        ipcRenderer.on('onZenEngineExit', (event, param) => {
-            $console.append("Engine process exited.....<br/>");
-            onUpdateEngine(false);
-        });
-
-        ipcRenderer.on('onZenEngineError', (event, param) => {
-            $console.append("Engine process throw error.....<br/>" + param);
-            onUpdateEngine(true);
-        });
-
-    })();
-
-
-    var uptimeMemory = {
-        set: function () {
-            fs.writeFile(path.join(__dirname, "engine"), moment.now(), function (err) {
-
-            });
-        },
-
-        get: function () {
-            return parseInt(fs.readFileSync(path.join(__dirname, "engine")).asciiSlice());
-        },
-
-        exists: function () {
-            if (fs.readFileSync(path.join(__dirname, "engine")).asciiSlice().length > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-
-        clear: function () {
-            fs.writeFile(path.join(__dirname, "engine"), "", function (err) {
-
-            });
-        }
-    }
-
-
-    function uptime() {
-        let counter = 0;
-        let runClock = null;
-        let time = null;
-        let $uptimeTicker = $(".uptime-ticker");
-        let uptimeMemoryCheck = false;
-
-
-        function displayTime() {
-
-            if (uptimeMemory.exists() && uptimeMemoryCheck == false) {
-
-
-                let now = moment().format('DD/MM/YYYY HH:mm:ss');
-                let then = moment(uptimeMemory.get()).format('DD/MM/YYYY HH:mm:ss');
-                let ms = moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"));
-                let d = moment.duration(ms);
-
-                counter = d.asSeconds();
-
-                time = moment().hour(0).minute(0).second(counter).format('HH : mm : ss');
-                //console.log(time);
-                $uptimeTicker.html(time);
-                uptimeMemoryCheck = true;
-            } else {
-                time = moment().hour(0).minute(0).second(counter++).format('HH : mm : ss');
-                $uptimeTicker.html(time);
-            }
-
-
-
-        }
-
-        this.start = function () {
-            if (runClock == null) {
-                runClock = setInterval(displayTime, 1000);
-                engineStart = moment.now();
-
-
-            }
-        }
-
-        this.stop = function () {
-            clearInterval(runClock);
-            $uptimeTicker.html("00 : 00 : 00");
-            runClock = null;
-            time = null;
-            uptimeMemoryCheck = false;
-        }
-
-
-    }
-</script>
+<script src="assets/js/app.js"></script>
 
 </html>
