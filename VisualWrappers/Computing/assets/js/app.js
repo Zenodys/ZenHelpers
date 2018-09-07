@@ -1,4 +1,6 @@
 if (window.module) module = window.module;
+
+const ipcRenderer = require('electron').ipcRenderer;
 //***********************************//
 
 
@@ -196,11 +198,13 @@ function ControlPanel(data) {
   });
 
 
+  // On electron exit
+  if (isEngineStarted) {
+    // on window reload stop!
+    window.onbeforeunload = (e) => {
+      ipcRenderer.send("stopEngine");
 
-  // on window reload stop!
-  window.onbeforeunload = (e) => {
-    ipcRenderer.send("stopEngine");
-
+    }
   }
 
 };
