@@ -11,6 +11,7 @@
 /VisualWrappers/Computing/content/*
 /VisualWrappers/Computing/builds/*
 /VisualWrappers/Computing/release-builds/*
-
+/VisualWrappers/Computing/package-lock.json
+/VisualWrappers/Computing/engine
 VisualWrappers/address.1
 VisualWrappers/project/
