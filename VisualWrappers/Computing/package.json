@@ -1,5 +1,5 @@
 {
-  "name": "computing",
+  "name": "Zenodys-User-Panel",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "pack-win": "electron-packager . zenodys-user-panel  --platform=win32  --overwrite --icon=assets/icons/win/icon.ico --out=builds",
     "pack-linux": "electron-packager . zenodys-user-panel --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
-  "author": "",
+  "author": "Zenodys B.V.",
   "license": "ISC",
   "devDependencies": {
     "electron": "2.0.8",
