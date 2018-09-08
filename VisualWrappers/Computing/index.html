@@ -15,6 +15,7 @@
 
 
 <body class="bg-light-grey">
+
     <div class="navigation-wrapper small">
         <nav class="grid-container ">
             <div class="grid-x align-middle">
@@ -51,7 +52,6 @@
         <div class="grid-container">
             <div class="grid-x align-top grid-margin-x">
                 <div class="large-4 cell large-offset-2">
-
                     <div class="simple-card">
                         <div class="card-header">
                             <span class="badge secondary float-left txt-blue-a-27">1</span> Settings
@@ -64,7 +64,6 @@
                     </div>
 
                     <div class="simple-card">
-
                         <div class="card-header">
                             <span class="badge secondary float-left">2</span>Zen Engine
                         </div>
@@ -91,28 +90,42 @@
                         </div>
                         <div class="large-6 cell">
                             <div class="simple-card">
-                                <div class="card-header">
-                                    Earnings
+                                <div class="card-header" style="margin-bottom:9px;">
+                                    Measurements
                                 </div>
                                 <div class="progress-bar">
                                     <span class="progress-bar-fill" style="width: 0%"></span>
                                 </div>
 
-                                <h2 class="no-margin-all txt-32pt">
-                                    <span id="earnings">0,00</span>
-                                    <strong class="txt-18pt"></strong>
-                                    <small class="txt-blue-a-27"> / <span id="quote">0</span><small>
+                                <div class="grid-x align-top grid-margin-x">
+                                    <div class="measurment-divider txt-28pt txt-medium txt-blue-a-27">/</div>
+                                    <div class="large-6 cell text-center">
+                                        <div id="earnings" class=" txt-28pt txt-blue-a-87 strong txt-medium line-height-1">0,00</div>
+                                        <strong class="txt-14pt txt-blue-a-27 uppercase strong txt-bold line-height-1">Made</strong>
+                                    </div>
+                                    <div class="large-6 cell text-center">
+                                        <div id="quote" class=" txt-28pt txt-blue-a-27 strong txt-medium line-height-1">0</div>
+                                        <strong class="txt-14pt txt-blue-a-27 uppercase strong txt-bold  line-height-1">Needed</strong>
+                                    </div>
+                                </div>
 
-                                </h2>
+                                <div class="no-margin-all txt-32pt">
+
+                                    <strong class="txt-18pt"></strong>
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="simple-card">
                         <div class="card-header"> Console
                             <a id="console-clear" href="#" class="button small radius no-margin-all secondary inverted">Clear
                                 console</a></div>
                         <div id="message" class="console-output"></div>
                     </div>
+
                 </div>
             </div>
         </div>

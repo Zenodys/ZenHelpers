@@ -46,7 +46,7 @@ function ControlPanel(data) {
       isEngineStarted = true;
 
       $engineToggle.removeClass("success").addClass("alert").html("Stop");
-      $status.addClass("running").html("Started");
+      $status.addClass("running").html("Running");
       $visualisations.removeClass("disabled");
       engineUptime.start();
 
@@ -165,7 +165,6 @@ function ControlPanel(data) {
 
     if (console_output_counter == 1) {
       p_bar.start();
-      console.log("start ouptput")
     }
 
 
@@ -322,7 +321,7 @@ function uptime() {
 var p_animation = function (bar, _f) {
 
   let $bar = $(bar);
-  let fr = 100 / _f;
+  let fr = 100 / (_f - .5);
   let progressBar = 0;
   let t = null;
   let _self = this;
@@ -331,18 +330,12 @@ var p_animation = function (bar, _f) {
   this.start = function () {
 
     t = setInterval(function () {
-
       progressBar = progressBar + fr;
-      console.log(progressBar)
+      //console.log(progressBar)
       $bar.css({
         "width": progressBar + "%"
       });
 
-      /*while (progressBar <= 100) {
-
-        _self.start();
-
-      }*/
       if (progressBar > 100) {
         clearInterval(t);
         progressBar = 0;
@@ -352,10 +345,7 @@ var p_animation = function (bar, _f) {
         t = null;
         _self.start();
       }
-
-
-    }, 1000)
-
+    }, 1000);
   }
 
 
@@ -367,6 +357,5 @@ var p_animation = function (bar, _f) {
     });
     t = null;
   }
-
 
 }

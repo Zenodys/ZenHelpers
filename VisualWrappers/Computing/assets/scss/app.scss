@@ -19,6 +19,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'montserratbold';
+    src: url('../fonts/montserrat-bold-w.svg#montserratbold') format('svg'), url('../fonts/montserrat-bold-w.woff2') format('woff2'), url('../fonts/montserrat-bold-w.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @import 'foundation';
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
@@ -142,6 +149,14 @@ section {
 
 .txt-medium {
     font-family: 'montserratsemibold' !important;
+}
+
+.txt-bold {
+    font-family: 'montserratbold' !important;
+}
+
+.line-height-1 {
+    line-height: 1;
 }
 
 .ltr-spacing-01 {
@@ -524,12 +539,12 @@ section {
 
 .progress-bar {
     position: relative;
-    top: -2px;
-    width: calc(100% - 6px);
-    height: 5px;
-    background: #e0e0e0;
+    top: -35px;
+    left: 140px;
+    width: calc(100% - 140px);
+    background: rgba(1, 9, 108, .05);
     border-radius: 3px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .07);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07);
 }
 
 .progress-bar-fill {
@@ -538,4 +553,16 @@ section {
     background: rgba(61, 93, 237, 0.54);
     border-radius: 3px;
     transition: width 250ms ease-in-out;
+}
+
+.measurment-divider {
+    position: absolute;
+    left: 50%;
+    margin-left: -5px;
+}
+
+.badge.secondary {
+    background: rgba(1, 9, 108, 0.05);
+    color: rgba(1, 9, 108, 0.54);
+    font-family: "montserratbold";
 }
