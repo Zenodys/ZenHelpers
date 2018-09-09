@@ -5,7 +5,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 
 JSON_Reader("ui-config.json").done(function (data) {
-  ControlPanel(data)
+  ControlPanel(data);
 })
 
 function ControlPanel(data) {
@@ -25,9 +25,13 @@ function ControlPanel(data) {
   let $saveAddressBtn = $('#saveAddress');
   let frequency = data.frequency;
   let quote = data.quote;
+  let isQuoteReached = fs.readFileSync(path.join(__dirname, "quote-reached")).asciiSlice();
+
+
 
 
   $("#quote").html(quote);
+
 
   // functions
   html = (a) => {
@@ -36,7 +40,6 @@ function ControlPanel(data) {
 
 
   let p_bar = new p_animation(".progress-bar-fill", frequency);
-
 
 
   onUpdateEngine = (state) => {
@@ -87,7 +90,15 @@ function ControlPanel(data) {
   if (read_etherum_wallet !== null && read_etherum_wallet.asciiSlice() !== "") {
     $engineToggle.removeClass("disabled");
     $ethWallet.val(read_etherum_wallet);
+
   }
+
+
+  if (isQuoteReached !== "" && isNaN(isQuoteReached) == false && isQuoteReached == quote) {
+    $("#earnings").html(isQuoteReached);
+    $engineToggle.addClass("disabled").addClass("quote-reached");
+  }
+
 
   // events
   $engineToggle.on('click', (e) => {
@@ -158,22 +169,39 @@ function ControlPanel(data) {
 
   ipcRenderer.on('onZenEngineCount', (event, param) => {
 
-    if (param <= quote) {
-      $("#earnings").html(param);
-
-    }
-
     if (console_output_counter == 1) {
       p_bar.start();
     }
 
+    if (param <= quote) {
+      $("#earnings").html(param);
 
+    }
     // Stop engine when quote is reached
     if (param == quote) {
       ipcRenderer.send("stopEngine");
       engineStopStatus();
+
+      if (!$engineToggle.hasClass("quote-reached")) {
+        $engineToggle.addClass("disabled").addClass("quote-reached");
+      }
+
+      fs.writeFile(path.join(__dirname, "quote-reached"), param,
+        function (err) {
+          if (err) {
+            alert('Could not write to file.');
+          } else {
+            alert("Quote reached. Zen Engine will stop.");
+          }
+        });
+
+
+
+    } else if (param >= quote) {
+      engineStopStatus();
       $engineToggle.addClass("disabled").addClass("quote-reached");
-      alert("Quote reached. Zen Engine will stop.")
+      $("#earnings").html(quote);
+
     }
 
 
@@ -260,7 +288,6 @@ function JSON_Reader(url) {
       d.reject();
     }
   });
-
   return d.promise();
 }
 
@@ -317,6 +344,13 @@ function uptime() {
 }
 
 
+
+
+function WriteFile(path, data) {
+
+}
+
+
 // progress
 var p_animation = function (bar, _f) {
 
@@ -357,5 +391,4 @@ var p_animation = function (bar, _f) {
     });
     t = null;
   }
-
 }
