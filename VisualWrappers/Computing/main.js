@@ -78,6 +78,7 @@ ipcMain.on("startEngine", function (event, arg) {
 ipcMain.on("stopEngine", function (event, arg) {
   child.stdin.pause();
   child.kill();
+  console.log("stop engine event");
 });
 
 function sendToRenderer(topic, arg) {

@@ -29,8 +29,6 @@ function ControlPanel(data) {
     isQuoteReached =
     (lastMeasurment < quote) ? false : true;
 
-  //console.log(isQuoteReached)
-  //console.log(lastMeasurment)
 
 
   $("#quote").html(quote);
@@ -103,6 +101,7 @@ function ControlPanel(data) {
   if (isQuoteReached) {
     $engineToggle.addClass("disabled").addClass("quote-reached");
     $saveAddressBtn.addClass("disabled");
+    ipcRenderer.send("stopEngine");
   }
 
 
