@@ -12,26 +12,27 @@ function ControlPanel(data) {
 
 
   // variables
-  let console_output_counter = 0;
-  let isEngineStarted = false;
-  let $engineToggle = $("#startEngineToggle");
-  let $status = $(".status-light");
-  let $visualisations = $('#visualisations');
-  let read_etherum_wallet = ReadAddress();
-  let $ethWallet = $('#txtAddress');
-  let engineUptime = new uptime();
-  let $cleanConsoleBtn = $("#console-clear");
-  let $console = $("#message");
-  let $saveAddressBtn = $('#saveAddress');
-  let frequency = data.frequency;
-  let quote = data.quote;
-  let isQuoteReached = fs.readFileSync(path.join(__dirname, "quote-reached")).asciiSlice();
-
+  let console_output_counter = 0,
+    isEngineStarted = false,
+    $engineToggle = $("#startEngineToggle"),
+    $status = $(".status-light"),
+    $visualisations = $('#visualisations'),
+    read_etherum_wallet = ReadAddress(),
+    $ethWallet = $('#txtAddress'),
+    engineUptime = new uptime(),
+    $cleanConsoleBtn = $("#console-clear"),
+    $console = $("#message"),
+    $saveAddressBtn = $('#saveAddress'),
+    frequency = data.frequency,
+    quote = data.quote,
+    lastMeasurment = parseInt(fs.readFileSync(path.join(__dirname, "quote-reached")).asciiSlice()) || 0,
+    isQuoteReached =
+    (lastMeasurment < quote) ? false : true;
 
 
 
   $("#quote").html(quote);
-
+  $("#earnings").html(fs.readFileSync(path.join(__dirname, "quote-reached")).asciiSlice());
 
   // functions
   html = (a) => {
@@ -80,7 +81,10 @@ function ControlPanel(data) {
     engineUptime.stop();
 
     uptimeMemory.clear();
-    $saveAddressBtn.removeClass('disabled');
+
+    if (!$engineToggle.hasClass("quote-reached"))
+      $saveAddressBtn.removeClass('disabled');
+
     $ethWallet.prop('disabled', false);
     console_output_counter = 0;
     p_bar.stop();
@@ -94,9 +98,10 @@ function ControlPanel(data) {
   }
 
 
-  if (isQuoteReached !== "" && isNaN(isQuoteReached) == false && isQuoteReached == quote) {
-    $("#earnings").html(isQuoteReached);
+  if (isQuoteReached) {
     $engineToggle.addClass("disabled").addClass("quote-reached");
+    $saveAddressBtn.addClass("disabled");
+    ipcRenderer.send("stopEngine");
   }
 
 
@@ -158,9 +163,13 @@ function ControlPanel(data) {
       }
 
     } else {
-      alert(
-        "Can't change ETH address while Zen Engine is running. To change ETH address please stop Zen Engine first."
-      )
+      if (!$engineToggle.hasClass("quote-reached")) {
+        alert(
+          "Can't change ETH address while Zen Engine is running. To change ETH address please stop Zen Engine first."
+        );
+      } else {
+        alert("Can't change ETH address because quote already reached.")
+      }
     }
   });
 
@@ -176,6 +185,15 @@ function ControlPanel(data) {
     if (param <= quote) {
       $("#earnings").html(param);
 
+      // write every measrutment in quote file
+      fs.writeFile(path.join(__dirname, "quote-reached"), param,
+        function (err) {
+          if (err) {
+            alert('Problem with setting reached quote status.');
+          } else {
+
+          }
+        });
     }
     // Stop engine when quote is reached
     if (param == quote) {
@@ -183,23 +201,21 @@ function ControlPanel(data) {
       engineStopStatus();
 
       if (!$engineToggle.hasClass("quote-reached")) {
+
         $engineToggle.addClass("disabled").addClass("quote-reached");
+        $saveAddressBtn.addClass("disabled");
+
+        alert("Engine will stop because quote is reached.");
       }
 
-      fs.writeFile(path.join(__dirname, "quote-reached"), param,
-        function (err) {
-          if (err) {
-            alert('Could not write to file.');
-          } else {
-            alert("Quote reached. Zen Engine will stop.");
-          }
-        });
 
 
 
+      // Force to stop engine if error occur
     } else if (param >= quote) {
       engineStopStatus();
       $engineToggle.addClass("disabled").addClass("quote-reached");
+      $saveAddressBtn.addClass("disabled");
       $("#earnings").html(quote);
 
     }
@@ -344,11 +360,6 @@ function uptime() {
 }
 
 
-
-
-function WriteFile(path, data) {
-
-}
 
 
 // progress
