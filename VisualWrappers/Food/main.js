@@ -1,13 +1,6 @@
-const {
-    app,
-    BrowserWindow
-} = require('electron');
-const {
-    spawn
-} = require('child_process');
-const {
-    ipcMain
-} = require('electron');
+const { app, BrowserWindow} = require('electron');
+const { spawn} = require('child_process');
+const { ipcMain} = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -26,7 +19,6 @@ app.on('ready', () => {
         fs.writeFile(path.join(__dirname, "engine"), "", function(err) { });
         mainWindow = null;
     });
-
 });
 
 app.on('window-all-closed', () => {

@@ -48,6 +48,8 @@
         </div>
     </section>
 
+
+
     <section>
         <div class="grid-container">
             <div class="grid-x align-top grid-margin-x">
@@ -65,7 +67,20 @@
 
                     <div class="simple-card">
                         <div class="card-header">
-                            <span class="badge secondary float-left">2</span>Zen Engine
+                            <span class="badge secondary float-left">2</span>Select path
+                        </div>
+                            <div class="input-group radius group">
+                            <input id="input-to-file" class="input-group-field disabled txt-14pt" value="" disabled  type="text">
+                            <div class="input-group-button">
+                                <button id="btn-path-to-save" class="button radius txt-white-100 no-margin-all expanded no-margin-all">Choose path</button>              
+                            </div>
+                            </div>
+                    </div>
+
+
+                    <div class="simple-card">
+                        <div class="card-header">
+                            <span class="badge secondary float-left">3</span>Zen Engine
                         </div>
                         <button id="startEngineToggle" class="button is-success radius txt-white-100 no-margin-all disabled success expanded no-margin-al">Start</button>
                         <small class="status-wrapper">Status: <strong class="status-light">Stopped</strong></small>
@@ -80,14 +95,14 @@
 
                 <div class="large-6 cell">
                     <div class="grid-x align-top grid-margin-x">
-                        <div class="large-6 cell">
+                        <!--<div class="large-6 cell">
                             <div class="simple-card">
                                 <div class="card-header">
-                                    <span class="badge secondary float-left">3</span> Visualizations</div>
+                                    <span class="badge secondary float-left">3</span> Select Path</div>
                                 <button id="visualisations" class="button disabled is-info expanded no-margin-all radius">Open</button>
 
                             </div>
-                        </div>
+                        </div>-->
                         <div class="large-6 cell">
                             <div class="simple-card">
                                 <div class="card-header" style="margin-bottom:9px;">
@@ -143,6 +158,8 @@
         module = undefined;
     }
 
+
+
     // Load modules globally
     window.$ = window.jQuery = require("jquery");
     window.foundation = require("foundation-sites");
@@ -154,5 +171,4 @@
 
 <script src="main.js"></script>
 <script src="assets/js/app.js"></script>
-
 </html>
