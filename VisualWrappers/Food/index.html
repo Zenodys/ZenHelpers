@@ -1,0 +1,158 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Zenodys User Panel</title>
+
+    <link href="assets/scss/app.css" rel="stylesheet">
+    <link href="assets/icons/app-ui-icons/style.css" rel="stylesheet">
+</head>
+
+
+<body class="bg-light-grey">
+
+    <div class="navigation-wrapper small">
+        <nav class="grid-container ">
+            <div class="grid-x align-middle">
+                <div class="large-2 medium-2 small-2 ">
+                    <span id="logo-home" class="align-left logo">
+                        <img src="https://zz.zenodys.com/assets/img/zenodys-logo-2.1.svg" alt="Zenodys logo">
+                    </span>
+                </div>
+                <div class="large-4 medium-8 small-8 ">
+                    <strong class="uppercase txt-white-87 txt-space-10">
+                        Zenodys User Panel
+                    </strong>
+                </div>
+                <div class="large-4 medium-8 small-8 text-right">
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <section id="open-call-list" class="grid-container grid-padding-x">
+        <div class="grid-x align-middle">
+            <div class="cell large-offset-2">
+                <h1 class="txt-22pt txt-blue-a-54 no-margin-all" style="padding:30px 0">
+                    Open Call
+
+                    &nbsp; <span class="txt-28pt">&rsaquo;</span>&nbsp;
+                    <span class="txt-blue-a-87"> Processor and RAM data from your computer</span></h1>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="grid-container">
+            <div class="grid-x align-top grid-margin-x">
+                <div class="large-4 cell large-offset-2">
+                    <div class="simple-card">
+                        <div class="card-header">
+                            <span class="badge secondary float-left txt-blue-a-27">1</span> Settings
+                        </div>
+                        <label class="txt-14pt" style="letter-spacing: 0px">Your public Ethereum (ETH) Wallet address</label>
+                        <input class="input" type="text" placeholder="0x0000000000000000000000000000000000000000" id="txtAddress" />
+                        <div class="card-footer">
+                            <button id="saveAddress" class="button radius expanded no-margin-all">Save</button>
+                        </div>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-header">
+                            <span class="badge secondary float-left">2</span>Zen Engine
+                        </div>
+                        <button id="startEngineToggle" class="button is-success radius txt-white-100 no-margin-all disabled success expanded no-margin-al">Start</button>
+                        <small class="status-wrapper">Status: <strong class="status-light">Stopped</strong></small>
+                        <small class="float-right uptime-wrapper">Uptime: <strong class="uptime-ticker">00 : 00 : 00</strong></small>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+
+
+                <div class="large-6 cell">
+                    <div class="grid-x align-top grid-margin-x">
+                        <div class="large-6 cell">
+                            <div class="simple-card">
+                                <div class="card-header">
+                                    <span class="badge secondary float-left">3</span> Visualizations</div>
+                                <button id="visualisations" class="button disabled is-info expanded no-margin-all radius">Open</button>
+
+                            </div>
+                        </div>
+                        <div class="large-6 cell">
+                            <div class="simple-card">
+                                <div class="card-header" style="margin-bottom:9px;">
+                                    Measurements
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="progress-bar-fill" style="width: 0%"></span>
+                                </div>
+
+                                <div class="grid-x align-top grid-margin-x">
+                                    <div class="measurment-divider txt-28pt txt-medium txt-blue-a-27">/</div>
+                                    <div class="large-6 cell text-center">
+                                        <div id="earnings" class=" txt-28pt txt-blue-a-87 strong txt-medium line-height-1">0</div>
+                                        <strong class="txt-14pt txt-blue-a-27 uppercase strong txt-bold line-height-1">Made</strong>
+                                    </div>
+                                    <div class="large-6 cell text-center">
+                                        <div id="quote" class=" txt-28pt txt-blue-a-27 strong txt-medium line-height-1">0</div>
+                                        <strong class="txt-14pt txt-blue-a-27 uppercase strong txt-bold  line-height-1">Needed</strong>
+                                    </div>
+                                </div>
+
+                                <div class="no-margin-all txt-32pt">
+
+                                    <strong class="txt-18pt"></strong>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-header"> Console
+                            <a id="console-clear" href="#" class="button small radius no-margin-all secondary inverted">Clear
+                                console</a></div>
+                        <div id="message" class="console-output"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+</body>
+
+<script>
+    if (typeof module === 'object') {
+        window.module = module;
+        module = undefined;
+    }
+
+    // Load modules globally
+    window.$ = window.jQuery = require("jquery");
+    window.foundation = require("foundation-sites");
+    window.moment = require("moment")
+    window.ethereum_address = require("ethereum-address");
+    window.fs = require('fs');
+    window.ipcRenderer = require('electron').ipcRenderer;
+</script>
+
+<script src="main.js"></script>
+<script src="assets/js/app.js"></script>
+
+</html>

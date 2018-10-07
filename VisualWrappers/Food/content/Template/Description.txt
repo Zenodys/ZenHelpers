@@ -1,0 +1,3 @@
+"Start" element is an entry point to Web Server loop. Web server is hosting CPU and memory data visualizations
+"StartSend" is an entry point to repeatable loop that meassures and delivers (hm , kam? rečemo v customer bazo) performance of Zenodys Engine. 
+"SystemInfo" is responsible for CPU and memory meassurement and "Send" is responsible for delivering data to marketplace. 

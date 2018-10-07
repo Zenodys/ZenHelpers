@@ -1,0 +1,10 @@
+Requirements:
+
+- .NET Framework 4.5+ (you can download latest version here https://www.microsoft.com/net/download/thank-you/net472)
+- Visual C++ Redistributable Packages for Visual Studio 2013 ( tole lahko damo na našem page-u za download vcredist_x64_2013.exe)
+- Visual C++ Redistributable Packages for Visual Studio 2017 ( tole lahko damo na našem page-u za download vc_redist.x64_2017.exe)
+
+
+.NET Framework bi že večina kišt morala imeti.
+C++ Packages pa verjetno tudi. V priponki sta dve sliki, če zateži za MSVCR120.dll (MissingDll1.PNG) pomeni da manjka vcredist_x64_2013.exe. Če pa MSVCR140.dll, pa manjka vc_redist.x64_2017.exe.
+Vprašanje do kake mere težimo userju - lahk napišemo da inštalira obe komponenti ne glede če mu dela ali ne. Ali pa rečemo da naj prova in potem eno po eno inštalira, dokler ne predela.

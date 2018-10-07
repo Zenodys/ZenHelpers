@@ -1,0 +1,568 @@
+@font-face {
+    font-family: 'montserratmedium';
+    src: url('../fonts/montserrat-medium-w.svg#montserratmedium') format('svg'), url('../fonts/montserrat-medium-w.woff2') format('woff2'), url('../fonts/montserrat-medium-w.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserratregular';
+    src: url('../fonts/montserrat-regular-w.svg#montserratregular') format('svg'), url('../fonts/montserrat-regular-w.woff2') format('woff2'), url('../fonts/montserrat-regular-w.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserratsemibold';
+    src: url('../fonts/montserrat-semibold-w.svg#montserratsemibold') format('svg'), url('../fonts/montserrat-semibold-w.woff2') format('woff2'), url('../fonts/montserrat-semibold-w.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserratbold';
+    src: url('../fonts/montserrat-bold-w.svg#montserratbold') format('svg'), url('../fonts/montserrat-bold-w.woff2') format('woff2'), url('../fonts/montserrat-bold-w.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import 'foundation';
+@include foundation-global-styles;
+@include foundation-xy-grid-classes;
+@include foundation-forms;
+@include foundation-typography;
+// Generic components
+@include foundation-button;
+@include foundation-button-group;
+@include foundation-close-button;
+@include foundation-label;
+@include foundation-progress-bar;
+//@include foundation-slider;
+//@include foundation-switch;
+//@include foundation-table;
+// Basic components
+@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-callout;
+@include foundation-card;
+@include foundation-dropdown;
+//@include foundation-pagination;
+@include foundation-tooltip;
+// Containers
+@include foundation-accordion;
+//@include foundation-media-object;
+//@include foundation-orbit;
+//@include foundation-responsive-embed;
+@include foundation-tabs;
+@include foundation-thumbnail;
+// Menu-based containers
+@include foundation-menu;
+@include foundation-menu-icon;
+@include foundation-accordion-menu;
+@include foundation-drilldown-menu;
+@include foundation-dropdown-menu;
+// Layout components
+//@include foundation-off-canvas;
+@include foundation-reveal;
+@include foundation-sticky;
+@include foundation-title-bar;
+@include foundation-top-bar;
+//helpers
+@include foundation-float-classes;
+@include foundation-flex-classes;
+@include foundation-visibility-classes;
+
+body {
+    padding-top: 80px;
+    overflow-x: hidden;
+}
+
+.gradient-bg-1 {
+    color: rgba(255, 255, 255, .87);
+    background-image: -ms-radial-gradient(right bottom, ellipse farthest-side, #901545 0%, #01096c 120%);
+    background-image: -moz-radial-gradient(right bottom, ellipse farthest-side, #901545 0%, #01096c 120%);
+    background-image: -o-radial-gradient(right bottom, ellipse farthest-side, #901545 0%, #01096c 120%);
+    background-image: -webkit-radial-gradient(right bottom, ellipse farthest-side, #901545 0%, #01096c 120%);
+    background-image: radial-gradient(ellipse farthest-side at right bottom, #901545 0%, #01096c 120%);
+}
+
+.gradient-bg-2 {
+    color: rgba(255, 255, 255, .87);
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01096c+0,021aee+100 */
+    background: #01096c;
+    background: -moz-linear-gradient(-45deg, #01096c 0%, #021aee 200%);
+    background: -webkit-linear-gradient(-45deg, #01096c 0%, #021aee 200%);
+    background: linear-gradient(135deg, #01136c 0%, #021aee 200%);
+}
+
+.gradient-blue-violet {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0f22ff+0,5003ff+100 */
+    background: #0f22ff;
+    background: -moz-linear-gradient(left, #0f22ff 0%, #5003ff 60%);
+    background: -webkit-linear-gradient(left, #0f22ff 0%, #5003ff 60%);
+    background: linear-gradient(to right, #0f22ff 0%, #5003ff 60%);
+}
+
+.bg-light-grey {
+    background-color: #F8F8F8;
+}
+
+.radius {
+    border-radius: 4px;
+}
+
+.rounded {
+    border-radius: 22px;
+}
+
+.button {
+    //font-family: "montserratsemibold";
+}
+
+.button.secondary.inverted {
+    border: 1px solid #d7dae2;
+    color: #4d4f5c;
+    background: rgba(0, 0, 0, .02);
+}
+
+.hollow {
+    border-width: 2px !important;
+}
+
+section {
+    outline: none
+}
+
+.gradient-bg-1 h2 {
+    color: #fff;
+}
+
+/* Text */
+.txt-light {
+    font-family: 'montserratregular';
+}
+
+.txt-regular {
+    font-family: 'montserratmedium' !important;
+    ;
+}
+
+.txt-medium {
+    font-family: 'montserratsemibold' !important;
+}
+
+.txt-bold {
+    font-family: 'montserratbold' !important;
+}
+
+.line-height-1 {
+    line-height: 1;
+}
+
+.ltr-spacing-01 {
+    letter-spacing: .1rem !important;
+}
+
+.txt-14pt {
+    font-size: .875rem;
+    letter-spacing: .0625rem;
+}
+
+.txt-18pt {
+    font-size: 1.125rem;
+}
+
+.txt-20pt {
+    font-size: 1.25rem;
+}
+
+.txt-22pt {
+    line-height: 30px;
+    font-size: 22px;
+}
+
+.txt-24pt {
+    font-size: 1.5rem;
+}
+
+.txt-28pt {
+    font-size: 1.75rem
+}
+
+.txt-32pt {
+    font-size: 2rem
+}
+
+.txt-36pt {
+    font-size: 2.125rem
+}
+
+.txt-48pt {
+    font-size: 3rem;
+}
+
+.txt-64pt {
+    font-size: 4rem;
+}
+
+.txt-blue-a-100 {
+    color: #01096c;
+}
+
+.txt-blue-a-87 {
+    color: #233383;
+}
+
+.txt-blue-a-54 {
+    color: #6a6a91;
+}
+
+.txt-blue-a-27 {
+    color: #bbc0d9;
+}
+
+.txt-blue-b-100 {
+    color: #314fcc !important;
+}
+
+.txt-blue-b-87 {
+    color: #4c66d3;
+}
+
+.txt-blue-b-54 {
+    color: #90a0e3;
+}
+
+.txt-blue-b-27 {
+    color: #cad1f2
+}
+
+.txt-red-100 {
+    color: #ff3f3d
+}
+
+.txt-red-87 {
+    color: #ff5856
+}
+
+.txt-red-54 {
+    color: #ff9796
+}
+
+.txt-green-100 {
+    color: #1eff80;
+}
+
+.txt-green-127 {
+    color: #16BD5F;
+}
+
+.txt-green-154 {
+    color: #2C543E;
+}
+
+.txt-yellow-100 {
+    color: rgba(255, 228, 30, 1)
+}
+
+.txt-white-54 {
+    color: rgba(255, 255, 255, .54) !important
+}
+
+.txt-white-87 {
+    color: rgba(255, 255, 255, .87) !important
+}
+
+.txt-white-100 {
+    color: rgba(255, 255, 255, 1) !important
+}
+
+.txt-red-glow-54 {
+    text-shadow: 0px 0px 8px rgba(255, 88, 86, .87)
+}
+
+.txt-space-10 {
+    letter-spacing: .1rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.display-block {
+    display: block;
+}
+
+.no-margin-all {
+    margin: 0 !important;
+}
+
+.border-red-100 {
+    border-color: #ff3f3d
+}
+
+.use-cases {
+    margin-top: .5rem;
+    margin-bottom: 50px;
+}
+
+.use-cases .cell>div {
+    transition: all .25s ease-in-out;
+    display: flex;
+    text-align: center;
+    font-weight: 600;
+    align-items: center;
+    padding-right: .5rem;
+    border: 2px solid #314fcc;
+    color: #314fcc;
+    height: 96px;
+}
+
+.gradient-bg-1 hr {
+    border-color: rgba(255, 255, 255, .27)
+}
+
+/*
+.use-cases .cell > div:hover{
+    transition:all .25s ease-in-out;
+    background: #314fcc;
+    color: #fff;
+}*/
+.use-cases .cell span {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 1.125rem;
+    letter-spacing: .125rem;
+    padding: 0 1rem;
+    color: #fff;
+    margin-right: .5rem;
+    background: #314fcc;
+}
+
+.use-cases-hexagon .hex-2 {
+    display: inline-block;
+    position: relative;
+    padding: 86px 32px 32px 32px;
+    color: #314fcc;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    background: #ccc url("../img//use-cases/hexagon-bg.svg") no-repeat center bottom;
+    min-height: 264px;
+    width: 25%;
+    color: #314fcc;
+}
+
+.hex-2.odd {
+    top: 228px;
+    left: -128px;
+}
+
+.use-cases-hexagon .use-case-icon {
+    height: 128px;
+    width: 128px;
+    left: 50%;
+    margin-left: -64px;
+    position: absolute;
+    top: -40px;
+}
+
+/*tray when removing tray top track for crowdsale make padding again 108px*/
+.header-content {
+    padding-top: 148px;
+    z-index: 2;
+    position: relative;
+}
+
+.logo {
+    z-index: 99;
+    position: absolute;
+    top: 36px;
+    transition: .25s;
+}
+
+.navigation-wrapper {
+    z-index: 10;
+    background: rgba(2, 22, 106, .0);
+    background: #020b7e;
+    margin: 0px;
+    height: 108px;
+    width: 100%;
+    display: block;
+    position: fixed;
+    -webkit-box-shadow: 0px 24px 68px 12px rgba(7, 11, 79, 0.84);
+    -moz-box-shadow: 0px 24px 68px 12px rgba(7, 11, 79, 0.84);
+    box-shadow: 0px 24px 68px 12px rgba(0, 1, 94, .52);
+    transition: .25s;
+    top: 0px;
+    overflow: hidden;
+
+    &.small {
+        height: 76px;
+        background: rgba(2, 11, 126, .95);
+        transition: .25s;
+        box-shadow: 0px 2px 10px 0px rgba(7, 11, 79, 0.54);
+    }
+
+    &.small .menu {
+        transition: .25s;
+        padding-top: 16px;
+    }
+
+    &.small .logo {
+        transition: .25s;
+        top: 18px;
+    }
+
+    &.small .mobile-button {
+        transition: .25s;
+        top: 16px;
+    }
+
+    &.small .mobile-menu {
+        transition: .25s;
+        top: 76px;
+    }
+
+    .grid-x {
+        height: 76px;
+    }
+}
+
+.simple-card {
+    position: relative;
+    border-radius: 3px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 2px 12px 0px rgba(49, 79, 204, .07);
+    color: #6a6a91;
+    margin: 0 0 1.875rem 0;
+    letter-spacing: .025rem;
+
+    .card-header {
+        line-height: 21px;
+        font-family: "montserratregular";
+        font-size: 17px;
+        letter-spacing: 0px;
+        display: block;
+        margin: -1rem -1rem 1rem -1rem;
+        padding: 1rem;
+        height: 50px;
+        box-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);
+
+        .badge {
+            height: 24px;
+            width: 24px;
+            line-height: 19px;
+            display: inline-block;
+            font-size: 11px;
+            position: relative;
+            top: -2px;
+            margin-right: .5rem;
+            font-weight: bold;
+            overflow: hidden;
+        }
+    }
+
+    .card-footer {
+        position: relative;
+        top: 1px;
+        margin: 2rem -1rem -1rem;
+        padding: 1rem;
+        background: #fafafa;
+        border-top: 1px solid rgba(77, 79, 92, .14);
+        border-bottom: 2px solid rgba(77, 79, 92, .08);
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+}
+
+.console-output {
+    height: 65%;
+    overflow: auto;
+    font-size: 12px;
+    font-family: $font-family-monospace;
+    padding-right: .5rem;
+
+    span {
+        word-wrap: break-word;
+        //border-bottom: 1px solid rgba(0, 1, 94, .1)
+    }
+}
+
+.status-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: .25rem;
+    letter-spacing: 0px;
+    padding-left: 1.25rem;
+}
+
+.uptime-wrapper {
+    display: inline-block;
+    margin-top: .25rem;
+    position: relative;
+}
+
+.status-light:before {
+    position: absolute;
+    background: white;
+    top: 5px;
+    left: 4px;
+    content: '';
+    display: block;
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    -moz-box-shadow: inset 0 0 5px #000000;
+    -webkit-box-shadow: inset 0 0 5px #000000;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.37), 0 0 4px red;
+    background: #d92026;
+}
+
+.status-light.running:before {
+    background: #36c96b !important;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.37), 0 0 4px #36c96b;
+}
+
+#txtAddress {
+    font-family: $font-family-monospace;
+    letter-spacing: -.025rem;
+}
+
+#console-clear {
+    position: absolute;
+    right: 1rem;
+    top: 8px;
+}
+
+.progress-bar {
+    position: relative;
+    top: -35px;
+    left: 140px;
+    width: calc(100% - 140px);
+    background: rgba(1, 9, 108, .05);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+
+.progress-bar-fill {
+    display: block;
+    height: 5px;
+    background: rgba(61, 93, 237, 0.54);
+    border-radius: 3px;
+    transition: width 250ms ease-in-out;
+}
+
+.measurment-divider {
+    position: absolute;
+    left: 50%;
+    margin-left: -5px;
+}
+
+.badge.secondary {
+    background: rgba(1, 9, 108, 0.05);
+    color: rgba(1, 9, 108, 0.54);
+    font-family: "montserratbold";
+}
