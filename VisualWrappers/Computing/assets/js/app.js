@@ -17,6 +17,7 @@ function ControlPanel(data) {
     $engineToggle = $("#startEngineToggle"),
     $status = $(".status-light"),
     $visualisations = $('#visualisations'),
+    $developmentTool = $('#developmentTool'),
     read_etherum_wallet = ReadAddress(),
     $ethWallet = $('#txtAddress'),
     engineUptime = new uptime(),
@@ -143,6 +144,9 @@ function ControlPanel(data) {
     }
   });
 
+  $developmentTool.on('click', function () {
+    ipcRenderer.send("showDevelopmentTool");
+  });
 
   $saveAddressBtn.on('click', (e) => {
     e.preventDefault();

@@ -50,6 +50,19 @@ ipcMain.on("showVisualisations", function(event, arg) {
     newWindow.show();
 });
 
+ipcMain.on("showDevelopmentTool", function(event, arg) {
+    var newWindow = new BrowserWindow({
+        width: 1280,
+        height: 1024,
+        show: false,
+        icon: path.join(__dirname, 'assets/icons/zenodys-icon-128x128.ico')
+    });
+    
+
+    newWindow.loadURL('file://' + __dirname + '/visual.tool.html');
+    newWindow.show();
+});
+
 ipcMain.on("startEngine", function(event, arg) {
     child = spawn(path.join(__dirname, "ZenEngine\\ZenEngine.exe"), {
         cwd: path.join(__dirname, "ZenEngine")
