@@ -1,7 +1,9 @@
 if (window.module) module = window.module;
 
 const ipcRenderer = require('electron').ipcRenderer;
-const { dialog } = require('electron').remote;
+const {
+  dialog
+} = require('electron').remote;
 //***********************************//
 
 
@@ -21,35 +23,37 @@ function ControlPanel(data) {
 
 
   let inputPath = $("#input-to-file");
-  let readPath =  fs.readFileSync(path.join(__dirname, "path.txt"));
+  let readPath = fs.readFileSync(path.join(__dirname, "ZenEngine/path.txt"));
 
-  if(readPath != undefined){
+  if (readPath != undefined) {
     inputPath.val(readPath);
   }
 
 
-  $("#btn-path-to-save").on("click", (e)=>{
+  $("#btn-path-to-save").on("click", (e) => {
     e.preventDefault();
 
-    dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }, function(folder_path){
+    dialog.showOpenDialog({
+      properties: ['openFile', 'openDirectory']
+    }, function (folder_path) {
       console.log('dialog-path')
       console.log(folder_path[0]);
 
-    if(folder_path[0] != undefined){
-           fs.writeFile(path.join(__dirname, "path.txt"), folder_path[0],
-              function (err) {
-                if (err) {
-                  alert('Problem with setting folder path');
-                } else {
-                    inputPath.val(folder_path[0]);
-                }
-              });
-    }
+      if (folder_path[0] != undefined) {
+        fs.writeFile(path.join(__dirname, "ZenEngine/path.txt"), folder_path[0],
+          function (err) {
+            if (err) {
+              alert('Problem with setting folder path');
+            } else {
+              inputPath.val(folder_path[0]);
+            }
+          });
+      }
 
-     
-        
-      });
-    
+
+
+    });
+
 
   });
 
