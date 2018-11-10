@@ -7,27 +7,32 @@ const {
 //***********************************//
 
 
-
-
-
-
 JSON_Reader("ui-config.json").done(function (data) {
   ControlPanel(data);
 
 });
 
 
-
-
 function ControlPanel(data) {
 
-
   let inputPath = $("#input-to-file");
-  let readPath = fs.readFileSync(path.join(__dirname, "ZenEngine/path.txt"));
+  let readPath = "";
+  let picsConfig = "pics_root";
 
-  if (readPath != undefined) {
+  // Check if path to file exists
+  if (fs.existsSync(path.join(__dirname, "ZenEngine/" + picsConfig))) {
+
+    // Get value of path to picture
+    readPath = fs.readFileSync(path.join(__dirname, "ZenEngine/" + picsConfig));
+
+    // Set value of file to pics
     inputPath.val(readPath);
+
+
+  } else {
+    alert("Missing file \"pics_root\" from ZenEngine folder. Add it manually or contact the Zenodys team: support@zenodys.com");
   }
+
 
 
   $("#btn-path-to-save").on("click", (e) => {
@@ -36,25 +41,21 @@ function ControlPanel(data) {
     dialog.showOpenDialog({
       properties: ['openFile', 'openDirectory']
     }, function (folder_path) {
-      console.log('dialog-path')
-      console.log(folder_path[0]);
 
-      if (folder_path[0] != undefined) {
-        fs.writeFile(path.join(__dirname, "ZenEngine/path.txt"), folder_path[0],
+      if (folder_path != undefined) {
+        fs.writeFile(path.join(__dirname, "ZenEngine/" + picsConfig), folder_path[0],
           function (err) {
             if (err) {
               alert('Problem with setting folder path');
             } else {
               inputPath.val(folder_path[0]);
+              if (ethereum_address.isAddress($ethWallet.val())) {
+                $engineToggle.removeClass("disabled");
+              }
             }
           });
       }
-
-
-
     });
-
-
   });
 
 
@@ -64,7 +65,6 @@ function ControlPanel(data) {
     isEngineStarted = false,
     $engineToggle = $("#startEngineToggle"),
     $status = $(".status-light"),
-    $visualisations = $('#visualisations'),
     read_etherum_wallet = ReadAddress(),
     $ethWallet = $('#txtAddress'),
     engineUptime = new uptime(),
@@ -99,7 +99,6 @@ function ControlPanel(data) {
 
       $engineToggle.removeClass("success").addClass("alert").html("Stop");
       $status.addClass("running").html("Running");
-      $visualisations.removeClass("disabled");
       engineUptime.start();
 
       if (!uptimeMemory.exists()) {
@@ -125,7 +124,6 @@ function ControlPanel(data) {
     isEngineStarted = false;
     $engineToggle.removeClass("alert").addClass("success").html("Start");
     $status.removeClass("running").html("Stopped");
-    $visualisations.addClass("disabled");
     engineUptime.stop();
 
     uptimeMemory.clear();
@@ -139,8 +137,12 @@ function ControlPanel(data) {
   }
 
   // init
+  // start engine only if etherum address not empty and file path exists and not empty
   if (read_etherum_wallet !== null && read_etherum_wallet.asciiSlice() !== "") {
-    $engineToggle.removeClass("disabled");
+    if (readPath.length > 0) {
+      $engineToggle.removeClass("disabled");
+    }
+
     $ethWallet.val(read_etherum_wallet);
 
   }
@@ -185,13 +187,6 @@ function ControlPanel(data) {
   });
 
 
-  $visualisations.on('click', function () {
-    if (!$visualisations.hasClass("disabled")) {
-      ipcRenderer.send("showVisualisations");
-    }
-  });
-
-
   $saveAddressBtn.on('click', (e) => {
     e.preventDefault();
 
@@ -199,11 +194,14 @@ function ControlPanel(data) {
       if (ethereum_address.isAddress($ethWallet.val())) {
         fs.writeFile(path.join(__dirname, "ZenEngine\\address"), $ethWallet.val(),
           function (err) {
-            if (err)
+            if (err) {
               alert('Error in saving address!');
-            else
+            } else {
               alert("Address saved.");
-            $engineToggle.removeClass("disabled");
+              if (readPath.length > 0) {
+                $engineToggle.removeClass("disabled");
+              }
+            }
           });
       } else {
         alert('Not a valid Ethereum (ETH) wallet address. Please check your address.');
