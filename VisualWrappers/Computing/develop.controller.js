@@ -438,7 +438,7 @@ var developController = {
         newEl: newEl || ""
       });
   
-      appUi.viewJsPlumb.append(
+      $('#draw-canvas').append(
         $(myDiv)
           .addClass("window")
           .css({
@@ -454,7 +454,7 @@ var developController = {
           anchor: falseAnchors
         });
       }
-  
+      
       endpoints[ElementID] = [
         instance.addEndpoint(ElementID, TrueEndpoint, { anchor: trueAnchors }),
         falseEndpintOrNull,
@@ -601,7 +601,5 @@ var developController = {
         })
         .hide()
         .fadeIn();
-      console.log(endpoints[elementID][POS_ELEMENT_HTML_TEMPLATE]);
     }
   };
-  

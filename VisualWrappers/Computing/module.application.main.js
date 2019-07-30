@@ -653,19 +653,19 @@ var fStopTemplateCallback = function(data) {
 
 var fGetElementsCallback = function(data1) {
 
-    console.clear();
-    console.log(JSON.parse(data1));
+    //console.clear();
+    //console.log(JSON.parse(data1));
     var nodeNames = [];
 
-    miniLoader.show();
+    //miniLoader.show();
     //ShowProgressAnimation();
 
     currentEl.val('');
 
-    appConsole(togCon, "3. jsPlumb instance callback");
-    setTimeout(function() {
-        $('.loading-spinner').fadeOut(250);
-    }, 2000);
+    //appConsole(togCon, "3. jsPlumb instance callback");
+    //setTimeout(function() {
+    //    $('.loading-spinner').fadeOut(250);
+    //}, 2000);
 
     instance, endpoints = null;
 
@@ -689,7 +689,7 @@ var fGetElementsCallback = function(data1) {
     appUi.viewJsPlumb.html('');
     endpoints = {};
     var json_data = JSON.parse(data1);
-    $('#global-help').html(json_data[3]);
+    //$('#global-help').html(json_data[3]);
 
 
     if (json_data[1].length > 0)
@@ -697,9 +697,9 @@ var fGetElementsCallback = function(data1) {
 
     var htmlViewOptions = '';
 
-    $.each(json_data[0], function(item) {
-        htmlViewOptions += '<option data-class="delete-view-list"  val="' + json_data[0][item] + '">' + json_data[0][item] + '</option>'
-    });
+    //$.each(json_data[0], function(item) {
+    //    htmlViewOptions += '<option data-class="delete-view-list"  val="' + json_data[0][item] + '">' + json_data[0][item] + '</option>'
+    //});
 
     sessionStorage.setItem('currentViewID', json_data[4]);
     appUi.selectedViews.val(sessionStorage.getItem('currentViewID'));

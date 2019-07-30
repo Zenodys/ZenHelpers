@@ -1,5 +1,40 @@
+
+
+
+<!-- Insert this line above script imports  -->
 <script>
-    const {
+    if (typeof module === 'object') 
+    {
+        window.module = module; module = undefined;
+    }
+</script>
+
+<!-- normal script imports etc  -->
+<script src="jquery.all.min.js"></script>    
+
+<script src="assets/js/jquery.jsPlumb.min.js"></script>
+
+<script src="assets/js/module.global.config.js"></script>
+<script src="app.helpers.js"></script>
+<script src="lodash.min.js"></script>
+<script defer src="app.views.js"></script>
+<script defer src="module.application.main.js"></script>
+
+<script defer src="develop.controller.js"></script>
+
+
+<script src="visual.tool.js"></script>
+
+
+<!-- Insert this line after script imports -->
+<script>
+    if (window.module) 
+        module = window.module;
+</script>
+
+
+<script>
+    /*const {
         app,
         BrowserWindow
     } = require('electron');
@@ -7,12 +42,20 @@
     const {
         ipcMain
     } = require('electron');
+*/
+    const electron = require('electron');
+    const app = (process.type === 'renderer') ? electron.remote.app : electron.app;
+    const BrowserWindow = (process.type === 'renderer') ? electron.remote.BrowserWindow : electron.BrowserWindow; //electron.BrowserWindow;
+
+    const ipcMain = (process.type === 'renderer') ? electron.remote.ipcMain : electron.ipcMain;
 
     const path = require('path');
     const fs = require('fs');
 
+    
 
 </script>
+
 
 
 
@@ -21,9 +64,7 @@
 
 <script>
 
-    window.$ = window.jQuery = require("jquery");
-    window.fs = require('fs');
-
+    
     /*window.$ = window.jQuery = require("jquery");
     //window.foundation = require("foundation-sites");
     window.moment = require("moment")
@@ -39,8 +80,9 @@
             module = undefined;
 
 
+            window.$ = window.jQuery = require("jquery");
+            window.fs = require('fs');
         }
-
         initCanvas(fs.readFileSync(path.join(__dirname, "ZenEngine\\project\\9024bb0d-137e-4a99-2167-7b5875404b01\\DB\\Elements.json")));
     });
 
@@ -48,18 +90,4 @@
 
 </script>
 
-<!--
-<script src="jquery.all.min.js"></script>
--->
-<script src="assets/js/jquery.jsPlumb.min.js"></script>
-
-<script src="app.helpers.js"></script>
-<script src="lodash.min.js"></script>
-<script defer src="app.views.js"></script>
-<script defer src="module.application.main.js"></script>
-
-<script defer src="develop.controller.js"></script>
-<script src="assets/js/module.global.config.js"></script>
-
-<script src="visual.tool.js"></script>
 

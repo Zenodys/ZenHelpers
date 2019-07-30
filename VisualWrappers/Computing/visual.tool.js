@@ -1,9 +1,11 @@
 
 
 var initCanvas = function(elements) {
+    
     var nodeNames = [];
     var json_data = JSON.parse(elements);
 
+    //console.log(json_data);
     //currentEl.val('');
 
     instance, endpoints = null;
@@ -15,7 +17,7 @@ var initCanvas = function(elements) {
                 cursor: 'pointer',
                 zIndex: 2000
             },
-            Container: appUi.viewJsPlumb,
+            Container: 'draw-canvas',
             LogEnabled: true
         });
     });
@@ -24,8 +26,8 @@ var initCanvas = function(elements) {
     instance.detachAllConnections();
     instance.removeAllEndpoints();
 
-
-    appUi.viewJsPlumb.html('');
+    //$('#draw-canvas').html('dsdsds');
+    //appUi.viewJsPlumb.html('aaaaaaa');
     endpoints = {};
     
     //$('#global-help').html(json_data[3]);
@@ -47,7 +49,10 @@ var initCanvas = function(elements) {
     //appUi.viewSelect.html(htmlViewOptions)
     //appUi.viewSelect.val(sessionStorage.getItem('currentViewID'));
 
+    //console.log(endpoints);
+    
     for (var i = 0; i < json_data[1].length; i++) {
+        
         developController.elementSetOnView(
             json_data[1][i].ElementID,
             json_data[1][i].ElementName,
@@ -56,7 +61,7 @@ var initCanvas = function(elements) {
             json_data[1][i].ItemID,
             'N',
             json_data[1][i].ElementProperties,
-            json_data[1][i].ImagePath,
+            '.' + json_data[1][i].ImagePath,
             json_data[1][i].HtmlTemplate,
             json_data[1][i].Operator,
             json_data[1][i].Socket,
@@ -81,7 +86,7 @@ var initCanvas = function(elements) {
         });
     }
 
-
+    
     for (var i = 0; i < json_data[1].length; i++) {
         for (var j = 0; j < json_data[1][i].TrueChilds.length; j++) {
             instance.connect({
