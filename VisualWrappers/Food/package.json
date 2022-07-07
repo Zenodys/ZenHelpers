@@ -21,7 +21,7 @@
     "ethereum-address": "0.0.4",
     "foundation-sites": "^6.5.0",
     "jquery": "^3.3.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "npm": "^6.4.1"
   }
 }
